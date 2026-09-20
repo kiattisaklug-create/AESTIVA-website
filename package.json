@@ -1,0 +1,12 @@
+{
+  "name": "aestiva-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AESTIVA Aesthetic Clinic Management System marketing website",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
