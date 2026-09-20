@@ -1,46 +1,142 @@
+/* =====================================================================
+   server.js — เซิร์ฟเวอร์เล็ก ๆ สำหรับเปิดเว็บไซต์บน Railway
+   (ปกติไม่ต้องแก้ไฟล์นี้)
+   - เปิดให้ดาวน์โหลดเฉพาะไฟล์ของหน้าเว็บ (ไม่เปิดไฟล์ระบบอย่าง server.js)
+   - ไฟล์ html/css/js ตรวจเวอร์ชันใหม่ทุกครั้ง → แก้แล้วเห็นผลทันทีหลัง deploy
+   - บีบอัดไฟล์ข้อความ (gzip) ให้เว็บโหลดเร็วขึ้น
+   ===================================================================== */
+"use strict";
+
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const zlib = require("zlib");
 
-const port = process.env.PORT || 3000;
-const root = __dirname;
+const PORT = process.env.PORT || 3000;
+const ROOT = __dirname;
 
-const mime = {
+const MIME = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "application/javascript; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
+  ".svg": "image/svg+xml",
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
-  ".svg": "image/svg+xml",
+  ".webp": "image/webp",
+  ".gif": "image/gif",
   ".ico": "image/x-icon",
-  ".json": "application/json; charset=utf-8"
+  ".woff2": "font/woff2"
 };
 
-const server = http.createServer((req, res) => {
-  let urlPath = decodeURIComponent(req.url.split("?")[0]);
-  if (urlPath === "/") urlPath = "/index.html";
+// ไฟล์ที่อนุญาตให้คนทั่วไปเปิดดูได้
+const PUBLIC_FILES = new Set(["/index.html", "/styles.css", "/script.js", "/content.js", "/robots.txt", "/sitemap.xml"]);
+const PUBLIC_DIRS = ["/assets/"];
+const COMPRESSIBLE = new Set([".html", ".css", ".js", ".json", ".txt", ".xml", ".svg"]);
 
-  const safePath = path.normalize(path.join(root, urlPath));
-  if (!safePath.startsWith(root)) {
-    res.writeHead(403);
-    return res.end("Forbidden");
+const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "SAMEORIGIN",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+};
+
+const NOT_FOUND_HTML = `<!doctype html><html lang="th"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ไม่พบหน้านี้ | AESTIVA</title>
+<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#FAF9F6;color:#3A2E1F;font-family:system-ui,'Leelawadee UI',Tahoma,sans-serif;text-align:center;padding:24px">
+<div><p style="font-size:14px;letter-spacing:.3em;color:#8A6410;margin:0">AESTIVA</p>
+<h1 style="font-weight:600;font-size:28px;margin:12px 0">ไม่พบหน้าที่คุณต้องการ</h1>
+<a href="/" style="display:inline-block;margin-top:12px;padding:12px 28px;border-radius:999px;background:#D4AF37;color:#2B1F0D;text-decoration:none;font-weight:600">กลับไปหน้าแรก</a></div></body></html>`;
+
+function resolvePublicPath(rawUrl) {
+  let pathname;
+  try {
+    pathname = decodeURIComponent(rawUrl.split("?")[0].split("#")[0]);
+  } catch (e) {
+    return null;
+  }
+  if (pathname === "/") pathname = "/index.html";
+  if (pathname.includes("\0") || pathname.includes("..")) return null;
+  const allowed = PUBLIC_FILES.has(pathname) || PUBLIC_DIRS.some((d) => pathname.startsWith(d));
+  if (!allowed) return null;
+  const full = path.join(ROOT, path.normalize(pathname));
+  if (!full.startsWith(ROOT + path.sep)) return null;
+  return full;
+}
+
+function cacheControl(ext, filePath) {
+  if ([".html", ".css", ".js"].includes(ext)) return "no-cache"; // ตรวจเวอร์ชันใหม่ทุกครั้ง (มี ETag ช่วยให้เร็ว)
+  if (ext === ".woff2") return "public, max-age=31536000, immutable";
+  return "public, max-age=86400"; // รูปภาพ: จำไว้ 1 วัน
+}
+
+const gzipCache = new Map();
+
+const server = http.createServer((req, res) => {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    res.writeHead(405, { Allow: "GET, HEAD" });
+    return res.end();
   }
 
-  fs.readFile(safePath, (err, data) => {
-    if (err) {
-      res.writeHead(404, {"Content-Type":"text/plain; charset=utf-8"});
-      return res.end("Not found");
+  if (req.url === "/healthz") {
+    res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+    return res.end("ok");
+  }
+
+  const filePath = resolvePublicPath(req.url);
+  const notFound = () => {
+    res.writeHead(404, { "Content-Type": "text/html; charset=utf-8", ...SECURITY_HEADERS });
+    res.end(req.method === "HEAD" ? undefined : NOT_FOUND_HTML);
+  };
+  if (!filePath) return notFound();
+
+  fs.stat(filePath, (err, stat) => {
+    if (err || !stat.isFile()) return notFound();
+
+    const ext = path.extname(filePath).toLowerCase();
+    const etag = `W/"${stat.size.toString(16)}-${Math.floor(stat.mtimeMs).toString(16)}"`;
+    const headers = {
+      "Content-Type": MIME[ext] || "application/octet-stream",
+      "Cache-Control": cacheControl(ext, filePath),
+      ETag: etag,
+      Vary: "Accept-Encoding",
+      ...SECURITY_HEADERS
+    };
+
+    if (req.headers["if-none-match"] === etag) {
+      res.writeHead(304, headers);
+      return res.end();
     }
-    const ext = path.extname(safePath).toLowerCase();
-    res.writeHead(200, {
-      "Content-Type": mime[ext] || "application/octet-stream",
-      "Cache-Control": ext === ".html" ? "no-cache" : "public, max-age=31536000"
+
+    fs.readFile(filePath, (readErr, data) => {
+      if (readErr) return notFound();
+
+      const wantsGzip = /\bgzip\b/.test(req.headers["accept-encoding"] || "");
+      if (wantsGzip && COMPRESSIBLE.has(ext) && data.length > 512) {
+        let zipped = gzipCache.get(etag);
+        if (!zipped) {
+          zipped = zlib.gzipSync(data, { level: 9 });
+          gzipCache.set(etag, zipped);
+        }
+        headers["Content-Encoding"] = "gzip";
+        headers["Content-Length"] = zipped.length;
+        res.writeHead(200, headers);
+        return res.end(req.method === "HEAD" ? undefined : zipped);
+      }
+
+      headers["Content-Length"] = data.length;
+      res.writeHead(200, headers);
+      res.end(req.method === "HEAD" ? undefined : data);
     });
-    res.end(data);
   });
 });
 
-server.listen(port, "0.0.0.0", () => {
-  console.log(`AESTIVA website listening on ${port}`);
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`AESTIVA website listening on port ${PORT}`);
 });
+
+// ให้ Railway ปิดเซิร์ฟเวอร์อย่างนุ่มนวลเมื่อมีการ deploy ใหม่
+process.on("SIGTERM", () => server.close(() => process.exit(0)));

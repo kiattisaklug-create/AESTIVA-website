@@ -3,288 +3,459 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#b8872f">
-  <meta name="description" content="AESTIVA — Aesthetic Clinic Management System ระบบจัดการคลินิกศัลยกรรมและความงาม ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง">
-  <meta property="og:title" content="AESTIVA — Aesthetic Clinic Management System">
-  <meta property="og:description" content="ระบบจัดการคลินิกศัลยกรรมและความงาม ที่คิดโดยคุณหมอ เพื่อใช้ในคลินิกจริง">
-  <meta property="og:image" content="assets/aestiva-logo.png">
-  <title>AESTIVA | Aesthetic Clinic Management System</title>
-  <link rel="icon" href="assets/aestiva-logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <title>AESTIVA | ระบบจัดการคลินิกศัลยกรรมและความงาม</title>
+  <meta name="description" content="AESTIVA ระบบจัดการคลินิกศัลยกรรมและความงาม ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง — นัดหมาย OPD จ่ายยา เอกสาร LINE OA รายรับ และ Audit Log ในระบบเดียว">
+  <meta name="theme-color" content="#FAF9F6">
+
+  <!-- ✏️ ตอนแชร์ลิงก์ลง LINE / Facebook: ถ้าเปลี่ยนโดเมนใหม่ ให้แก้ที่อยู่ 2 บรรทัดนี้ (og:url และ og:image) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="th_TH">
+  <meta property="og:site_name" content="AESTIVA">
+  <meta property="og:title" content="AESTIVA — ระบบจัดการคลินิกศัลยกรรมและความงาม">
+  <meta property="og:description" content="ระบบหลังบ้านที่เข้าใจคลินิก ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง">
+  <meta property="og:url" content="https://aestiva-website-production.up.railway.app/">
+  <meta property="og:image" content="https://aestiva-website-production.up.railway.app/assets/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/noto-serif-thai-thai-600-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/ibm-plex-sans-thai-thai-400-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.className += " js";</script>
 </head>
+
 <body>
-  <div class="topline"></div>
+<a class="skip" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
 
-  <header class="nav-wrap">
-    <nav class="nav container">
-      <a class="brand" href="#home" aria-label="AESTIVA home">
-        <img src="assets/aestiva-logo.png" alt="AESTIVA logo">
-        <span>AESTIVA</span>
-      </a>
-      <button class="menu-btn" aria-label="เปิดเมนู" aria-expanded="false">☰</button>
-      <div class="nav-links">
-        <a href="#features">ฟีเจอร์</a>
-        <a href="#modules">Modules</a>
-        <a href="#pricing">ราคา</a>
-        <a href="#updates">Updates</a>
-        <a href="#contact">ติดต่อ</a>
-        <a class="nav-cta" href="#demo">ขอ Demo</a>
-      </div>
+<!-- ============ ไอคอนทั้งหมดของเว็บ (ไม่ต้องแก้) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.5c.7 5.9 4.6 9.8 10.5 10.5-5.9.7-9.8 4.6-10.5 10.5C11.3 16.6 7.4 12.7 1.5 12 7.4 11.3 11.3 7.4 12 1.5z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2.5 9.5 5-9.5 5-9.5-5 9.5-5z"/><path d="m2.5 12 9.5 5 9.5-5"/><path d="m2.5 16.5 9.5 5 9.5-5"/></g></symbol>
+    <symbol id="i-history" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></g></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></g></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></g></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></g></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6A8.4 8.4 0 0 1 12.5 3h.5a8.5 8.5 0 0 1 8 8v.5z"/></g></symbol>
+    <symbol id="i-pill" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5-7-7a4.95 4.95 0 0 1 7-7l7 7a4.95 4.95 0 0 1-7 7z"/><path d="m8.5 8.5 7 7"/></g></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></g></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></g></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></g></symbol>
+    <symbol id="i-badge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="m8 12.3 2.8 2.7L16 9.5"/></g></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/></g></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></g></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></g></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></g></symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12.5a4 4 0 1 0 4 4V3.5a5 5 0 0 0 5 5"/></g></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></g></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M12 18h.01"/></g></symbol>
+  </defs>
+</svg>
+
+<!-- ============================ เมนูบนสุด ============================ -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#home" aria-label="AESTIVA — กลับไปหน้าแรก">
+      <img src="assets/logo-mark.webp" width="48" height="48" alt="">
+      <span class="brand__word">AESTIVA</span>
+    </a>
+
+    <nav class="nav__links" id="nav-links" aria-label="เมนูหลัก">
+      <a href="#features">ฟีเจอร์</a>
+      <a href="#modules">โมดูล</a>
+      <a href="#pricing">ราคา</a>
+      <a href="#updates">อัปเดต</a>
+      <a href="#clinics">คลินิกที่ใช้</a>
+      <a href="#contact">ติดต่อ</a>
+      <a class="btn btn--gold btn--sm nav__cta" data-line-msg="สนใจขอ Demo ระบบ AESTIVA" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener">ขอ Demo</a>
     </nav>
-  </header>
 
-  <main id="home">
-    <section class="hero">
-      <div class="hero-glow"></div>
-      <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <div class="eyebrow"><span></span> CLINIC MANAGEMENT • DESIGNED BY A DOCTOR</div>
-          <h1>ระบบหลังบ้าน<br><em>ที่เข้าใจคลินิก</em></h1>
-          <p class="hero-lead">
-            AESTIVA คือระบบจัดการคลินิกศัลยกรรมและความงาม
-            ที่คิดจากการใช้งานจริงในคลินิก — ไม่ใช่แค่โปรแกรมที่สวย แต่ต้อง
-            <strong>จัดการงานได้จริง ตรวจสอบได้ และยืดหยุ่นกับวิธีทำงานของแต่ละคลินิก</strong>
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-gold" href="#demo">ขอ Demo โปรแกรม</a>
-            <a class="btn btn-ghost" href="#features">ดูรายละเอียดระบบ</a>
-          </div>
-          <div class="hero-proof">
-            <div><strong>Doctor-designed</strong><span>ออกแบบโดยคุณหมอ</span></div>
-            <div><strong>Modular</strong><span>เลือกใช้เฉพาะสิ่งที่ต้องการ</span></div>
-            <div><strong>Flexible</strong><span>กึ่งอัตโนมัติ ปรับแก้ได้</span></div>
-          </div>
-        </div>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="เปิดเมนู">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
 
-        <div class="hero-logo reveal delay">
-          <div class="logo-aura"></div>
-          <img src="assets/aestiva-logo.png" alt="AESTIVA Aesthetic Clinic Management System">
-          <div class="orbit orbit-1"></div>
-          <div class="orbit orbit-2"></div>
+<main id="main">
+
+  <!-- ============================ หน้าแรก ============================ -->
+  <section class="hero" id="home">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <h1 class="hero-in" style="--i:0">
+          <span>ระบบหลังบ้าน</span>
+          <span>ที่เข้าใจคลินิก</span>
+        </h1>
+        <p class="hero__lead hero-in" style="--i:1">
+          AESTIVA คือระบบจัดการคลินิกศัลยกรรมและความงาม ที่คิดจากการใช้งานจริงในคลินิก
+          ไม่ใช่แค่โปรแกรมที่สวย แต่ต้องจัดการงานได้จริง ตรวจสอบได้ และยืดหยุ่นกับวิธีทำงานของแต่ละคลินิก
+        </p>
+        <div class="hero__cta hero-in" style="--i:2">
+          <a class="btn btn--gold" data-line-msg="สนใจขอ Demo ระบบ AESTIVA" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener">ขอ Demo ผ่าน LINE</a>
+          <a class="btn btn--line" href="#features">ดูความสามารถของระบบ</a>
         </div>
       </div>
-    </section>
 
-    <section class="marquee" aria-label="AESTIVA highlights">
-      <div class="marquee-track">
-        <span>APPOINTMENT</span><i>✦</i><span>OPD</span><i>✦</i><span>MEDICATION</span><i>✦</i><span>DOCUMENTS</span><i>✦</i><span>LINE OA</span><i>✦</i><span>REVENUE</span><i>✦</i><span>AUDIT LOG</span><i>✦</i>
-        <span>APPOINTMENT</span><i>✦</i><span>OPD</span><i>✦</i><span>MEDICATION</span><i>✦</i><span>DOCUMENTS</span><i>✦</i><span>LINE OA</span><i>✦</i><span>REVENUE</span><i>✦</i><span>AUDIT LOG</span><i>✦</i>
+      <div class="hero__art hero-in" style="--i:1">
+        <div class="medallion" id="medallion">
+          <div class="medallion__halo"></div>
+          <svg class="medallion__ring medallion__ring--spin" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49.4"/></svg>
+          <svg class="medallion__ring medallion__ring--still" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49.7"/></svg>
+          <div class="medallion__disc">
+            <img src="assets/logo-medallion.webp" width="880" height="880" alt="โลโก้ AESTIVA — Aesthetic Clinic Management System" fetchpriority="high">
+            <span class="medallion__glint" aria-hidden="true"></span>
+          </div>
+          <i class="spark" style="--x:4%;--y:22%;--s:26px;--d:0s" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+          <i class="spark" style="--x:90%;--y:12%;--s:18px;--d:1.3s" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+          <i class="spark" style="--x:96%;--y:66%;--s:24px;--d:2.4s" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+          <i class="spark" style="--x:10%;--y:86%;--s:16px;--d:3.2s" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <section class="section problem" id="features">
-      <div class="container">
-        <div class="section-head reveal">
+    <div class="wrap">
+      <ul class="pillars hero-in" style="--i:3">
+        <li>
+          <svg class="ico" aria-hidden="true"><use href="#i-badge"/></svg>
+          <div><b>ออกแบบโดยคุณหมอ</b><span>Doctor-designed</span></div>
+        </li>
+        <li>
+          <svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg>
+          <div><b>เลือกใช้เฉพาะสิ่งที่ต้องการ</b><span>Modular</span></div>
+        </li>
+        <li>
+          <svg class="ico" aria-hidden="true"><use href="#i-sliders"/></svg>
+          <div><b>กึ่งอัตโนมัติ ปรับแก้ได้</b><span>Flexible</span></div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ ทำไมต้อง AESTIVA ============================ -->
+  <section class="section" id="why">
+    <div class="wrap why">
+      <div class="why__head">
+        <h2>คลินิกที่ดี ต้องมีมากกว่าหน้าร้านที่สวย</h2>
+        <p>เมื่อจำนวนคนไข้และทีมงานเพิ่มขึ้น สิ่งที่มองไม่เห็นด้านหลังกลายเป็นหัวใจสำคัญของการบริหารคลินิก</p>
+      </div>
+      <ul class="why__list">
+        <li class="reveal">
+          <span class="why__icon"><svg class="ico" aria-hidden="true"><use href="#i-layers"/></svg></span>
           <div>
-            <p class="kicker">WHY AESTIVA</p>
-            <h2>คลินิกที่ดี<br><em>ต้องมีมากกว่าหน้าร้านที่สวย</em></h2>
-          </div>
-          <p class="section-intro">
-            เมื่อจำนวนคนไข้และทีมงานเพิ่มขึ้น สิ่งที่มองไม่เห็นด้านหลัง
-            กลายเป็นหัวใจสำคัญของการบริหารคลินิก
-          </p>
-        </div>
-
-        <div class="pain-grid">
-          <article class="pain-card reveal">
-            <span class="number">01</span>
             <h3>ข้อมูลไม่อยู่ที่เดียว</h3>
             <p>นัดหมาย เอกสาร รูปก่อน–หลัง ยา และข้อมูลรายรับควรถูกจัดการอย่างเป็นระบบ</p>
-          </article>
-          <article class="pain-card reveal">
-            <span class="number">02</span>
+          </div>
+        </li>
+        <li class="reveal" style="--i:1">
+          <span class="why__icon"><svg class="ico" aria-hidden="true"><use href="#i-history"/></svg></span>
+          <div>
             <h3>งานต้องตรวจสอบย้อนหลังได้</h3>
             <p>การแก้ไขข้อมูลและการจ่ายยาเป็นเรื่องที่ควรมีร่องรอยและสิทธิ์การเข้าถึงที่ชัดเจน</p>
-          </article>
-          <article class="pain-card reveal">
-            <span class="number">03</span>
+          </div>
+        </li>
+        <li class="reveal" style="--i:2">
+          <span class="why__icon"><svg class="ico" aria-hidden="true"><use href="#i-people"/></svg></span>
+          <div>
             <h3>ระบบต้องเข้ากับคน</h3>
             <p>AESTIVA เน้น workflow แบบกึ่งอัตโนมัติ เพื่อให้ทีมทำงานเร็ว แต่ยังแก้ไขและปรับตามสถานการณ์จริงได้</p>
-          </article>
-        </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ ตัวอย่างระบบ (แท็บ) ============================ -->
+  <section class="section section--pearl" id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>หนึ่งระบบ ดูภาพรวมได้ทั้งคลินิก</h2>
+        <p>สร้างโครงสร้างหลังบ้านให้ทีมทำงานเป็นระบบ โดยไม่บังคับให้ทุกคลินิกต้องทำงานเหมือนกัน</p>
       </div>
-    </section>
 
-    <section class="section dark-section" id="modules">
-      <div class="container">
-        <div class="section-head light reveal">
-          <div>
-            <p class="kicker">CORE SYSTEM</p>
-            <h2>หนึ่งระบบ<br><em>ดูภาพรวมได้ทั้งคลินิก</em></h2>
-          </div>
-          <p class="section-intro">สร้างโครงสร้างหลังบ้านให้ทีมทำงานเป็นระบบ โดยไม่บังคับให้ทุกคลินิกต้องทำงานเหมือนกัน</p>
+      <div class="stage">
+        <div class="tabs" role="tablist" aria-label="ความสามารถหลักของ AESTIVA" aria-orientation="vertical">
+          <button class="tab" role="tab" id="tab-dashboard" aria-controls="panel-dashboard" aria-selected="true" type="button">
+            <span class="tab__icon"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg></span>
+            <span class="tab__text"><b>Dashboard &amp; Revenue</b><small>ภาพรวมธุรกิจ • รายรับ • หัตถการยอดนิยม</small></span>
+          </button>
+          <button class="tab" role="tab" id="tab-opd" aria-controls="panel-opd" aria-selected="false" tabindex="-1" type="button">
+            <span class="tab__icon"><svg class="ico" aria-hidden="true"><use href="#i-clipboard"/></svg></span>
+            <span class="tab__text"><b>Patient &amp; OPD</b><small>ประวัติคนไข้ • Consultation • Before / After</small></span>
+          </button>
+          <button class="tab" role="tab" id="tab-line" aria-controls="panel-line" aria-selected="false" tabindex="-1" type="button">
+            <span class="tab__icon"><svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg></span>
+            <span class="tab__text"><b>LINE OA Integration</b><small>แจ้งเตือน • ติดตาม • สื่อสารกับคนไข้</small></span>
+          </button>
+          <button class="tab" role="tab" id="tab-med" aria-controls="panel-med" aria-selected="false" tabindex="-1" type="button">
+            <span class="tab__icon"><svg class="ico" aria-hidden="true"><use href="#i-pill"/></svg></span>
+            <span class="tab__text"><b>Medication Control</b><small>จ่ายยา • ตรวจสอบ • ประวัติการดำเนินการ</small></span>
+          </button>
+          <button class="tab" role="tab" id="tab-docs" aria-controls="panel-docs" aria-selected="false" tabindex="-1" type="button">
+            <span class="tab__icon"><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg></span>
+            <span class="tab__text"><b>Documents &amp; Permissions</b><small>เอกสาร • สิทธิ์ทีมงาน • Audit Log</small></span>
+          </button>
         </div>
 
-        <div class="feature-layout">
-          <div class="feature-list">
-            <button class="feature-tab active" data-feature="dashboard"><span>01</span><b>Dashboard & Revenue</b><small>ภาพรวมธุรกิจ • รายรับ • หัตถการยอดนิยม</small></button>
-            <button class="feature-tab" data-feature="patient"><span>02</span><b>Patient & OPD</b><small>ประวัติคนไข้ • Consultation • Before / After</small></button>
-            <button class="feature-tab" data-feature="line"><span>03</span><b>LINE OA Integration</b><small>แจ้งเตือน • ติดตาม • สื่อสารกับคนไข้</small></button>
-            <button class="feature-tab" data-feature="meds"><span>04</span><b>Medication Control</b><small>จ่ายยา • ตรวจสอบ • ประวัติการดำเนินการ</small></button>
-            <button class="feature-tab" data-feature="docs"><span>05</span><b>Documents & Permissions</b><small>เอกสาร • สิทธิ์ทีมงาน • Audit Log</small></button>
+        <div class="window">
+          <div class="window__bar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="window__title">AESTIVA</span>
+            <span class="window__sample">ตัวอย่างหน้าจอ • ข้อมูลสมมติ</span>
           </div>
 
-          <div class="feature-panel" id="featurePanel">
-            <div class="panel-icon">✦</div>
-            <p class="panel-kicker">AESTIVA MODULE</p>
-            <h3 id="panelTitle">Dashboard & Revenue</h3>
-            <p id="panelText">เห็นภาพรวมของคลินิกในหน้าเดียว พร้อมสรุปรายรับรายวัน รายเดือน รายช่วงเวลา และดูหัตถการที่ได้รับความสนใจ</p>
-            <div class="mini-dashboard">
-              <div class="mini-top"><span>CLINIC OVERVIEW</span><span class="dot-live">● LIVE</span></div>
-              <div class="mini-metrics">
-                <div><small>Revenue</small><strong>฿ 248,900</strong><em>Monthly</em></div>
-                <div><small>Appointments</small><strong>126</strong><em>This month</em></div>
-                <div><small>Top Procedure</small><strong>Rhinoplasty</strong><em>Trending</em></div>
+          <div class="window__body">
+            <!-- 1) Dashboard -->
+            <div class="panel is-active" role="tabpanel" id="panel-dashboard" aria-labelledby="tab-dashboard" tabindex="0">
+              <div class="panel__head">
+                <h3>Dashboard &amp; Revenue</h3>
+                <p>เห็นภาพรวมของคลินิกในหน้าเดียว พร้อมสรุปรายรับรายวัน รายเดือน รายช่วงเวลา และดูหัตถการที่ได้รับความสนใจ</p>
               </div>
-              <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="kpis">
+                <div class="kpi"><small>รายรับเดือนนี้</small><b><span class="kpi__cur">฿</span><span data-count="248900">248,900</span></b><em>Monthly</em></div>
+                <div class="kpi"><small>นัดหมาย</small><b data-count="126">126</b><em>This month</em></div>
+                <div class="kpi"><small>หัตถการยอดนิยม</small><b class="kpi__text">Rhinoplasty</b><em>Trending</em></div>
+              </div>
+              <div class="chart" role="img" aria-label="กราฟแท่งตัวอย่างรายรับ 7 วัน">
+                <div class="chart__title">รายรับ 7 วันล่าสุด</div>
+                <div class="bars">
+                  <i style="--h:46%;--n:0"></i><i style="--h:62%;--n:1"></i><i style="--h:54%;--n:2"></i><i style="--h:78%;--n:3"></i><i style="--h:66%;--n:4"></i><i style="--h:92%;--n:5"></i><i style="--h:71%;--n:6"></i>
+                </div>
+                <div class="bar-labels"><span>จ.</span><span>อ.</span><span>พ.</span><span>พฤ.</span><span>ศ.</span><span>ส.</span><span>อา.</span></div>
+              </div>
+            </div>
+
+            <!-- 2) Patient & OPD -->
+            <div class="panel" role="tabpanel" id="panel-opd" aria-labelledby="tab-opd" tabindex="0" hidden>
+              <div class="panel__head">
+                <h3>Patient &amp; OPD</h3>
+                <p>รวมประวัติคนไข้ บันทึกการปรึกษา และภาพก่อน–หลังไว้ในที่เดียว ค้นหาและเปิดดูได้ทันที</p>
+              </div>
+              <div class="patient">
+                <span class="avatar">AK</span>
+                <div><b>คุณ A.K.</b><small>HN 000123 • Consultation</small></div>
+                <span class="chip chip--gold">OPD</span>
+              </div>
+              <div class="ba">
+                <figure class="ba__img ba__img--before"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg><figcaption>ก่อน</figcaption></figure>
+                <figure class="ba__img ba__img--after"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg><figcaption>หลัง</figcaption></figure>
+              </div>
+              <div class="note">
+                <b>Consultation</b>
+                <span class="sk" style="--w:92%"></span>
+                <span class="sk" style="--w:78%"></span>
+                <span class="sk" style="--w:54%"></span>
+              </div>
+            </div>
+
+            <!-- 3) LINE OA -->
+            <div class="panel" role="tabpanel" id="panel-line" aria-labelledby="tab-line" tabindex="0" hidden>
+              <div class="panel__head">
+                <h3>LINE OA Integration</h3>
+                <p>แจ้งเตือนนัดหมาย ติดตามผล และสื่อสารกับคนไข้ผ่าน LINE OA ของคลินิก พร้อม Broadcast และ Rich Menu</p>
+              </div>
+              <div class="chat">
+                <div class="bubble" style="--n:0">แจ้งเตือนนัดหมาย พรุ่งนี้ 10:30 น. ตรวจติดตามผล</div>
+                <div class="bubble bubble--out" style="--n:1">รับทราบค่ะ ขอบคุณค่ะ</div>
+                <div class="bubble" style="--n:2">คลินิกส่งข้อมูลการดูแลตัวเองหลังหัตถการให้แล้วนะคะ</div>
+              </div>
+              <div class="chips">
+                <span class="chip">Reminder</span><span class="chip">Broadcast</span><span class="chip">Rich Menu</span><span class="chip">Portfolio</span>
+              </div>
+            </div>
+
+            <!-- 4) Medication -->
+            <div class="panel" role="tabpanel" id="panel-med" aria-labelledby="tab-med" tabindex="0" hidden>
+              <div class="panel__head">
+                <h3>Medication Control</h3>
+                <p>จ่ายยา ตรวจสอบ และเก็บประวัติการดำเนินการทุกครั้ง เพื่อให้ย้อนกลับมาดูได้เมื่อจำเป็น</p>
+              </div>
+              <div class="table-wrap">
+                <table class="tbl">
+                  <thead><tr><th>รายการ</th><th>จำนวน</th><th>ผู้จ่าย</th><th>สถานะ</th></tr></thead>
+                  <tbody>
+                    <tr><td>ยาแก้ปวด</td><td>10 เม็ด</td><td>พยาบาล A</td><td><span class="chip chip--ok">ตรวจสอบแล้ว</span></td></tr>
+                    <tr><td>ยาปฏิชีวนะ</td><td>14 เม็ด</td><td>พยาบาล B</td><td><span class="chip chip--ok">ตรวจสอบแล้ว</span></td></tr>
+                    <tr><td>ยาลดบวม</td><td>6 เม็ด</td><td>พยาบาล A</td><td><span class="chip">รอตรวจสอบ</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="hint"><svg class="ico" aria-hidden="true"><use href="#i-history"/></svg>ทุกการจ่ายยาถูกบันทึกไว้ในประวัติการดำเนินการ</p>
+            </div>
+
+            <!-- 5) Documents & Permissions -->
+            <div class="panel" role="tabpanel" id="panel-docs" aria-labelledby="tab-docs" tabindex="0" hidden>
+              <div class="panel__head">
+                <h3>Documents &amp; Permissions</h3>
+                <p>จัดการเอกสาร กำหนดสิทธิ์ทีมงานตามบทบาท และตรวจสอบร่องรอยการแก้ไขผ่าน Audit Log</p>
+              </div>
+              <div class="split">
+                <div>
+                  <h4>สิทธิ์ตามบทบาท</h4>
+                  <ul class="roles">
+                    <li><b>เจ้าของคลินิก</b><span>ทุกโมดูล</span></li>
+                    <li><b>แพทย์</b><span>OPD • เอกสาร</span></li>
+                    <li><b>พยาบาล</b><span>จ่ายยา • นัดหมาย</span></li>
+                    <li><b>ต้อนรับ</b><span>นัดหมาย • คิว</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Audit Log</h4>
+                  <ul class="log">
+                    <li><time>10:42</time><span>แก้ไขข้อมูลคนไข้</span><em>พยาบาล A</em></li>
+                    <li><time>10:15</time><span>จ่ายยา</span><em>พยาบาล B</em></li>
+                    <li><time>09:58</time><span>เปิดเอกสาร OPD</span><em>แพทย์</em></li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="section philosophy">
-      <div class="container philosophy-grid">
-        <div class="philosophy-visual reveal">
-          <div class="quote-mark">“</div>
-          <div class="gold-line"></div>
-          <p>ระบบอัตโนมัติ<br><strong>อาจไม่ใช่คำตอบทั้งหมด</strong></p>
-          <span>AESTIVA PHILOSOPHY</span>
-        </div>
-        <div class="philosophy-copy reveal">
-          <p class="kicker">DESIGNED FOR REAL CLINICS</p>
-          <h2>เทคโนโลยีที่ช่วยทีม<br><em>ไม่ใช่เทคโนโลยีที่บังคับทีม</em></h2>
-          <p>งานคลินิกมีรายละเอียดและสถานการณ์เฉพาะหน้า AESTIVA จึงออกแบบให้หลายขั้นตอนเป็น “กึ่งอัตโนมัติ” เพื่อเพิ่มความเร็วและลดงานซ้ำ แต่ยังเปิดพื้นที่ให้ผู้ใช้งานตรวจสอบ แก้ไข และตัดสินใจได้</p>
-          <ul class="check-list">
-            <li>Workflow ยืดหยุ่น</li>
-            <li>สิทธิ์การใช้งานแยกตามบทบาท</li>
-            <li>ตรวจสอบข้อมูลย้อนหลังได้ในส่วนที่รองรับ</li>
-            <li>เลือกเพิ่ม Module ตามการเติบโตของคลินิก</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section modules-showcase">
-      <div class="container">
-        <div class="center-head reveal">
-          <p class="kicker">MODULE ECOSYSTEM</p>
-          <h2>เริ่มจากสิ่งที่จำเป็น<br><em>แล้วค่อยขยายเมื่อคลินิกโต</em></h2>
-          <p>โครงสร้างแบบ Modular ช่วยให้เลือกลงทุนกับระบบที่ตอบโจทย์ workflow ของคลินิกในแต่ละช่วง</p>
-        </div>
-        <div class="module-grid">
-          <div class="module-card featured reveal"><span>CORE</span><h3>Clinic Operations</h3><p>คิว • นัดหมาย • OPD • เอกสาร • คนไข้</p><b>Essential</b></div>
-          <div class="module-card reveal"><span>COMMUNICATION</span><h3>LINE OA</h3><p>ข้อความ • แจ้งเตือน • Reminder • Broadcast</p><b>Connect</b></div>
-          <div class="module-card reveal"><span>CONTROL</span><h3>Staff & Audit</h3><p>Permission • Log • Backup • Control</p><b>Secure</b></div>
-          <div class="module-card reveal"><span>INSIGHT</span><h3>Business Dashboard</h3><p>รายรับ • หัตถการ • ภาพรวมธุรกิจ</p><b>Insight</b></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section pricing" id="pricing">
-      <div class="container">
-        <div class="center-head reveal">
-          <p class="kicker">PLANS</p>
-          <h2>เลือกแพ็กเกจ<br><em>ให้เหมาะกับขนาดคลินิก</em></h2>
-          <p>โครงสร้างราคาเริ่มต้นสำหรับการใช้งาน AESTIVA และสามารถขยาย Module ได้ตามความต้องการ</p>
-        </div>
-
-        <div class="price-grid">
-          <article class="price-card reveal">
-            <p class="plan">LITE</p><div class="price">฿990<span>/เดือน</span></div>
-            <p class="desc">สำหรับคลินิกที่ต้องการวางระบบพื้นฐานให้เป็นระเบียบ</p>
-            <ul><li>Booking / Queue</li><li>Medication Dispensing</li><li>Documents</li><li>Basic Receipts</li><li>1 Staff Seat</li></ul>
-            <a href="#demo" class="price-btn">สนใจ Lite</a>
-          </article>
-          <article class="price-card featured-price reveal">
-            <div class="popular">MOST USED</div>
-            <p class="plan">PRO</p><div class="price">฿2,490<span>/เดือน</span></div>
-            <p class="desc">สำหรับคลินิกที่ต้องการเชื่อมระบบงานกับการสื่อสาร</p>
-            <ul><li>ทุกอย่างใน Lite</li><li>LINE Chat + Broadcast</li><li>Portfolio / Rich Menu</li><li>5 Staff Seats</li></ul>
-            <a href="#demo" class="price-btn gold">ขอ Demo Pro</a>
-          </article>
-          <article class="price-card reveal">
-            <p class="plan">MASTERY</p><div class="price">฿4,990<span>/เดือน</span></div>
-            <p class="desc">สำหรับคลินิกที่ต้องการการควบคุมและการจัดการระดับองค์กร</p>
-            <ul><li>ทุกอย่างใน Pro</li><li>Unlimited Staff</li><li>Audit Log + Backup</li><li>White-label Logo / Name</li></ul>
-            <a href="#demo" class="price-btn">สนใจ Mastery</a>
-          </article>
-        </div>
-        <p class="pricing-note">* ราคาและขอบเขต Module สามารถปรับตามรุ่นของระบบและเงื่อนไขการให้บริการ กรุณาติดต่อ AESTIVA เพื่อยืนยันรายละเอียดล่าสุด</p>
-      </div>
-    </section>
-
-    <section class="section updates" id="updates">
-      <div class="container">
-        <div class="section-head reveal">
-          <div><p class="kicker">VERSION & UPDATES</p><h2>ระบบมีชีวิต<br><em>และพัฒนาไปพร้อมกับคลินิก</em></h2></div>
-          <p class="section-intro">ใช้พื้นที่นี้เป็นศูนย์กลางประกาศ Version ใหม่, Module ใหม่, คู่มือ และข่าวสารของ AESTIVA</p>
-        </div>
-        <div class="timeline">
-          <div class="timeline-item"><span>V1</span><div><small>CORE SYSTEM</small><h3>Clinic Management Foundation</h3><p>โครงสร้างหลักสำหรับผู้ป่วย นัดหมาย เอกสาร การจ่ายยา และการจัดการงานภายในคลินิก</p></div></div>
-          <div class="timeline-item"><span>NOW</span><div><small>CONTINUOUS DEVELOPMENT</small><h3>Module Expansion</h3><p>เพิ่มความสามารถด้าน LINE OA, Dashboard, Permission และ workflow ที่ตอบโจทย์การทำงานจริง</p></div></div>
-          <div class="timeline-item"><span>SOON</span><div><small>ROADMAP</small><h3>More Modules • More Integrations</h3><p>พื้นที่สำหรับประกาศความสามารถใหม่และการอัปเกรดในอนาคต</p></div></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section clinics">
-      <div class="container">
-        <div class="center-head reveal">
-          <p class="kicker">TRUSTED IN REAL CLINICS</p>
-          <h2>คลินิกที่เลือกใช้<br><em>AESTIVA</em></h2>
-          <p>ส่วนนี้สามารถเพิ่ม Logo / ชื่อคลินิก / Case Study หลังได้รับอนุญาตให้เผยแพร่</p>
-        </div>
-        <div class="clinic-placeholders">
-          <div>YOUR CLINIC<br><small>LOGO</small></div><div>YOUR CLINIC<br><small>LOGO</small></div><div>YOUR CLINIC<br><small>LOGO</small></div><div>YOUR CLINIC<br><small>LOGO</small></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section demo" id="demo">
-      <div class="container demo-box reveal">
-        <div>
-          <p class="kicker">REQUEST A DEMO</p>
-          <h2>อยากเห็น AESTIVA<br><em>ทำงานกับคลินิกของคุณ?</em></h2>
-          <p>พูดคุยกับทีม AESTIVA เพื่อดูระบบจริง และเลือกแนวทางที่เหมาะกับ workflow ของคลินิก</p>
-        </div>
-        <div class="demo-actions">
-          <a class="btn btn-gold big" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener">LINE OA <strong>@392qlspn</strong></a>
-          <div class="socials">
-            <a href="https://www.tiktok.com/@aestiva56" target="_blank" rel="noopener">TikTok <b>@AESTIVA56</b></a>
-            <a href="https://www.instagram.com/aestiva56/" target="_blank" rel="noopener">Instagram <b>@AESTIVA56</b></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section contact" id="contact">
-      <div class="container contact-grid">
-        <div>
-          <p class="kicker">AESTIVA</p>
-          <h2>Aesthetic Clinic<br><em>Management System</em></h2>
-          <p>ระบบจัดการคลินิกศัลยกรรมและความงาม ที่คิดโดยคุณหมอ เพื่อใช้ในคลินิกจริง</p>
-        </div>
-        <div class="contact-card">
-          <div><small>LINE OA</small><strong>@392qlspn</strong></div>
-          <div><small>TIKTOK</small><strong>@AESTIVA56</strong></div>
-          <div><small>INSTAGRAM</small><strong>@AESTIVA56</strong></div>
-          <a class="btn btn-dark" href="#demo">ติดต่อเพื่อขอ Demo →</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-inner">
-      <span>© <span id="year"></span> AESTIVA. All rights reserved.</span>
-      <span>Built for real clinic operations.</span>
     </div>
-  </footer>
+  </section>
 
-  <script src="script.js"></script>
+  <!-- ============================ แนวคิด (พื้นหลังเข้ม) ============================ -->
+  <section class="section section--night philosophy" id="philosophy">
+    <div class="wrap philosophy__grid">
+      <blockquote class="philosophy__quote reveal">
+        <p>ระบบอัตโนมัติ<br>อาจไม่ใช่คำตอบทั้งหมด</p>
+        <footer>แนวคิดของ AESTIVA</footer>
+      </blockquote>
+      <div class="philosophy__body reveal" style="--i:1">
+        <h2>เทคโนโลยีที่ช่วยทีม ไม่ใช่เทคโนโลยีที่บังคับทีม</h2>
+        <p>งานคลินิกมีรายละเอียดและสถานการณ์เฉพาะหน้า AESTIVA จึงออกแบบให้หลายขั้นตอนเป็น “กึ่งอัตโนมัติ” เพื่อเพิ่มความเร็วและลดงานซ้ำ แต่ยังเปิดพื้นที่ให้ผู้ใช้งานตรวจสอบ แก้ไข และตัดสินใจได้</p>
+        <ul class="checks">
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Workflow ยืดหยุ่น</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>สิทธิ์การใช้งานแยกตามบทบาท</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>ตรวจสอบข้อมูลย้อนหลังได้ในส่วนที่รองรับ</li>
+          <li><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>เลือกเพิ่ม Module ตามการเติบโตของคลินิก</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ Module ============================ -->
+  <section class="section" id="modules">
+    <div class="wrap">
+      <div class="sec-head sec-head--center">
+        <i class="orn" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+        <h2>เริ่มจากสิ่งที่จำเป็น แล้วค่อยขยายเมื่อคลินิกโต</h2>
+        <p>โครงสร้างแบบ Modular ช่วยให้เลือกลงทุนกับระบบที่ตอบโจทย์ workflow ของคลินิกในแต่ละช่วง</p>
+      </div>
+      <ol class="path" data-render="modules"></ol>
+    </div>
+  </section>
+
+  <!-- ============================ ราคา ============================ -->
+  <section class="section section--pearl" id="pricing">
+    <div class="wrap">
+      <div class="sec-head sec-head--center">
+        <i class="orn" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+        <h2>เลือกแพ็กเกจ ให้เหมาะกับขนาดคลินิก</h2>
+        <p>โครงสร้างราคาเริ่มต้นสำหรับการใช้งาน AESTIVA และสามารถขยาย Module ได้ตามความต้องการ</p>
+      </div>
+      <div class="plans" data-render="plans"></div>
+      <p class="plans-note" data-render="plan-note"></p>
+    </div>
+  </section>
+
+  <!-- ============================ เวอร์ชัน & อัปเดต ============================ -->
+  <section class="section" id="updates">
+    <div class="wrap updates">
+      <div class="updates__head">
+        <h2>ระบบมีชีวิต และพัฒนาไปพร้อมกับคลินิก</h2>
+        <p>ศูนย์กลางประกาศ Version ใหม่ Module ใหม่ คู่มือ และข่าวสารของ AESTIVA</p>
+        <p class="version-chip" data-render="latest-version" hidden></p>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="timeline__rail" aria-hidden="true"><i class="timeline__fill"></i></div>
+        <ol class="timeline__list" data-render="updates"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ คลินิกที่ใช้ ============================ -->
+  <section class="section section--pearl" id="clinics">
+    <div class="wrap">
+      <div class="sec-head sec-head--center">
+        <i class="orn" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+        <h2>คลินิกที่เลือกใช้ AESTIVA</h2>
+      </div>
+      <div data-render="clinics"></div>
+    </div>
+  </section>
+
+  <!-- ============================ คำถามที่พบบ่อย ============================ -->
+  <section class="section" id="faq">
+    <div class="wrap faq-wrap">
+      <div class="faq-wrap__head">
+        <h2>คำถามที่พบบ่อย</h2>
+        <p>ยังมีข้อสงสัยเพิ่มเติม? ทักทีมงานทาง LINE OA ได้โดยตรง</p>
+      </div>
+      <div class="faq" data-render="faq"></div>
+    </div>
+  </section>
+
+  <!-- ============================ ติดต่อ / ขอ Demo ============================ -->
+  <section class="section section--night contact" id="contact">
+    <span id="demo" class="anchor-fix"></span>
+    <div class="wrap contact__grid">
+      <div class="contact__copy">
+        <h2>อยากเห็น AESTIVA ทำงานกับคลินิกของคุณ?</h2>
+        <p>พูดคุยกับทีม AESTIVA เพื่อดูระบบจริง และเลือกแนวทางที่เหมาะกับ workflow ของคลินิก</p>
+        <div class="contact__actions">
+          <a class="btn btn--gold" data-line="add" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener">เพิ่มเพื่อนใน LINE OA</a>
+        </div>
+        <ul class="contact__list" data-render="contact-list"></ul>
+      </div>
+
+      <div class="qr-card">
+        <div class="qr-card__frame">
+          <img data-render="line-qr" src="assets/line-qr.svg" width="232" height="232" alt="QR Code สำหรับเพิ่มเพื่อน LINE OA ของ AESTIVA">
+        </div>
+        <p class="qr-card__title">สแกนเพื่อคุยกับทีม AESTIVA</p>
+        <p class="qr-card__id" data-render="line-id">@392qlspn</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============================ ท้ายเว็บ ============================ -->
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <a class="brand brand--footer" href="#home" aria-label="AESTIVA — กลับไปด้านบน">
+        <img src="assets/logo-mark.webp" width="56" height="56" alt="">
+        <span class="brand__word">AESTIVA</span>
+      </a>
+      <p>Aesthetic Clinic Management System<br>ระบบจัดการคลินิกศัลยกรรมและความงาม ที่คิดโดยคุณหมอ เพื่อใช้ในคลินิกจริง</p>
+    </div>
+    <nav class="footer__nav" aria-label="ลิงก์ท้ายเว็บ">
+      <a href="#features">ฟีเจอร์</a>
+      <a href="#modules">โมดูล</a>
+      <a href="#pricing">ราคา</a>
+      <a href="#updates">อัปเดต</a>
+      <a href="#clinics">คลินิกที่ใช้</a>
+      <a href="#faq">คำถามที่พบบ่อย</a>
+    </nav>
+    <ul class="footer__contact" data-render="footer-contact"></ul>
+  </div>
+  <div class="wrap footer__bottom">
+    <p>© <span id="year">2026</span> AESTIVA. All rights reserved.</p>
+    <p>Built for real clinic operations.</p>
+  </div>
+</footer>
+
+<!-- ปุ่มลอยติดต่อ LINE (โผล่หลังเลื่อนลงมาเล็กน้อย) -->
+<a class="fab" id="fab" data-line-msg="สนใจระบบ AESTIVA" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener" aria-label="คุยกับทีม AESTIVA ผ่าน LINE">
+  <svg class="ico" aria-hidden="true"><use href="#i-chat"/></svg><span>คุยผ่าน LINE</span>
+</a>
+
+<noscript><p class="noscript">หน้าเว็บนี้ต้องเปิดใช้ JavaScript เพื่อแสดงราคา อัปเดต และข้อมูลติดต่อครบถ้วน — ติดต่อเราได้ทาง LINE OA @392qlspn</p></noscript>
+
+<script src="content.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

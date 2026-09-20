@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>คู่มือดูแลเว็บไซต์ AESTIVA</title>
+<style>
+  body{font-family:"Tahoma","Leelawadee UI",sans-serif;background:#FAF9F6;color:#3A2E1F;line-height:1.85;margin:0}
+  main{max-width:820px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:1.9rem;margin:0 0 .3rem;color:#8a6508}
+  h2{font-size:1.4rem;margin:2.6rem 0 .6rem;padding-top:1.2rem;border-top:2px solid #D4AF37;color:#8a6508}
+  h3{font-size:1.1rem;margin:1.6rem 0 .3rem}
+  .lead{color:#6b5b45;margin-bottom:1.5rem}
+  ol,ul{padding-left:1.4rem} li{margin:.35rem 0}
+  code,.k{background:#F3EBD3;border:1px solid #E4D6A5;border-radius:5px;padding:1px 7px;font-family:Consolas,monospace;font-size:.95em}
+  pre{background:#241B10;color:#F7E7B7;padding:14px 16px;border-radius:10px;overflow:auto;font-size:.92rem;line-height:1.6}
+  .box{background:#fff;border:1px solid #E8E1D6;border-left:5px solid #D4AF37;border-radius:10px;padding:12px 18px;margin:1rem 0}
+  .warn{border-left-color:#B3261E;background:#FFF6F5}
+  .toc a{color:#8a6508}
+  table{border-collapse:collapse;width:100%;background:#fff;margin:.8rem 0}
+  td,th{border:1px solid #E8E1D6;padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:#F4EFE6}
+</style>
+</head>
+<body>
+<main>
+
+<h1>คู่มือดูแลเว็บไซต์ AESTIVA</h1>
+<p class="lead">เขียนสำหรับคนที่ไม่เคยทำเว็บมาก่อน ทำตามทีละข้อได้เลย ไม่ต้องรู้เรื่องโค้ด</p>
+
+<div class="box toc">
+  <b>สารบัญ</b>
+  <ol>
+    <li><a href="#a">ภาพรวม: ไฟล์อะไรอยู่ตรงไหน</a></li>
+    <li><a href="#b">ส่งเว็บใหม่ขึ้น GitHub และ Railway (ทำครั้งแรกครั้งเดียว)</a></li>
+    <li><a href="#c">แก้ข้อมูลในเว็บเอง (ราคา, ติดต่อ, อัปเดต, คลินิก, FAQ)</a></li>
+    <li><a href="#d">เพิ่มโลโก้คลินิกที่ใช้ระบบ</a></li>
+    <li><a href="#e">เปลี่ยนสีของเว็บ</a></li>
+    <li><a href="#f">ถ้ามีอะไรผิดพลาด</a></li>
+  </ol>
+</div>
+
+<h2 id="a">1) ภาพรวม: ไฟล์อะไรอยู่ตรงไหน</h2>
+<table>
+<tr><th>ไฟล์ / โฟลเดอร์</th><th>หน้าที่</th><th>ต้องแก้ไหม</th></tr>
+<tr><td><code>content.js</code></td><td>ข้อมูลที่เปลี่ยนบ่อย: ช่องทางติดต่อ, ราคา, เวอร์ชัน/อัปเดต, คลินิกที่ใช้, FAQ</td><td><b>แก้ไฟล์นี้ไฟล์เดียวเป็นหลัก</b></td></tr>
+<tr><td><code>index.html</code></td><td>โครงหน้าเว็บและข้อความส่วนหัว ส่วนตัวอย่างระบบ</td><td>นานๆ ครั้ง</td></tr>
+<tr><td><code>styles.css</code></td><td>สี ตัวอักษร ระยะห่าง เอฟเฟกต์</td><td>ถ้าอยากเปลี่ยนสี (ข้อ 5)</td></tr>
+<tr><td><code>script.js</code>, <code>server.js</code>, <code>package.json</code></td><td>ระบบเบื้องหลัง</td><td><b>ห้ามแก้</b></td></tr>
+<tr><td><code>assets</code></td><td>รูปภาพ โลโก้ ฟอนต์</td><td>เพิ่มโลโก้คลินิกได้ (ข้อ 4)</td></tr>
+</table>
+
+<h2 id="b">2) ส่งเว็บใหม่ขึ้น GitHub และ Railway (ทำครั้งแรกครั้งเดียว)</h2>
+<p>วิธีนี้ไม่ต้องติดตั้งโปรแกรมอะไรเพิ่ม ใช้แค่เบราว์เซอร์</p>
+
+<h3>ขั้นที่ A: เตรียมไฟล์บนเครื่อง</h3>
+<ol>
+  <li>ดาวน์โหลดไฟล์ <code>AESTIVA-website.zip</code> ที่ได้รับ</li>
+  <li>คลิกขวาที่ไฟล์ zip เลือก <b>Extract All… (แตกไฟล์ทั้งหมด)</b> แล้วกด <b>Extract</b></li>
+  <li>เปิดโฟลเดอร์ <code>AESTIVA-website</code> ที่ได้ จะเห็นไฟล์ <code>index.html</code>, <code>styles.css</code>, <code>content.js</code> และโฟลเดอร์ <code>assets</code></li>
+  <li>ลองดับเบิลคลิก <code>index.html</code> เว็บจะเปิดในเบราว์เซอร์ให้ดูก่อนได้เลย</li>
+</ol>
+
+<h3>ขั้นที่ B: อัปโหลดขึ้น GitHub</h3>
+<ol>
+  <li>เปิด <code>https://github.com/kiattisaklug-create/AESTIVA-website</code> แล้วล็อกอิน</li>
+  <li>กดปุ่ม <b>Add file</b> (สีเทา ด้านขวาบน) แล้วเลือก <b>Upload files</b></li>
+  <li>เปิดโฟลเดอร์ <code>AESTIVA-website</code> บนเครื่อง กด <span class="k">Ctrl</span> + <span class="k">A</span> เพื่อเลือก<b>ทุกไฟล์และทุกโฟลเดอร์ข้างใน</b> แล้วลากทั้งหมดมาวางในหน้า GitHub</li>
+  <li>รอจนไฟล์ขึ้นครบ (โฟลเดอร์ <code>assets</code> จะขึ้นเป็นรายการไฟล์ย่อยด้วย)</li>
+  <li>เลื่อนลงล่างสุด ช่อง <b>Commit changes</b> พิมพ์ข้อความสั้นๆ เช่น <code>redesign website</code></li>
+  <li>กดปุ่มสีเขียว <b>Commit changes</b></li>
+</ol>
+<div class="box">ไฟล์ชื่อเดิม (เช่น <code>index.html</code>) จะถูกแทนที่ด้วยไฟล์ใหม่โดยอัตโนมัติ ส่วนไฟล์เก่าที่ไม่ได้ใช้แล้ว (เช่น <code>assets/brand-reference.png</code>) จะยังค้างอยู่ ไม่มีผลเสียกับเว็บ ลบทิ้งภายหลังได้ถ้าต้องการ</div>
+
+<h3>ขั้นที่ C: ให้ Railway อัปเดตเว็บ</h3>
+<ol>
+  <li>เปิดโปรเจกต์ Railway ของคุณ แล้วคลิกที่บริการ (service) ของเว็บ AESTIVA</li>
+  <li>ไปที่แท็บ <b>Settings</b> ดูหัวข้อ <b>Source</b> ต้องเห็นชื่อ repo <code>kiattisaklug-create/AESTIVA-website</code></li>
+  <li>ถ้าเชื่อมไว้แล้ว Railway จะเริ่ม Deploy เองภายในไม่กี่วินาทีหลัง Commit ไปดูที่แท็บ <b>Deployments</b> รอจนขึ้นสถานะ <b>Active</b> (ประมาณ 1–2 นาที)</li>
+  <li>เปิด <code>https://aestiva-website-production.up.railway.app/</code> แล้วกด <span class="k">Ctrl</span> + <span class="k">F5</span> เพื่อรีเฟรชแบบล้างแคช</li>
+</ol>
+<div class="box warn">ถ้าใน Source ไม่มีชื่อ repo ให้กด <b>Connect Repo</b> เลือก <code>AESTIVA-website</code> และ branch <code>main</code> จากนั้นระบบจะ Deploy ให้</div>
+
+<h2 id="c">3) แก้ข้อมูลในเว็บเอง</h2>
+<p>วิธีที่ง่ายที่สุด: แก้ไฟล์ <code>content.js</code> บนเว็บ GitHub ตรงๆ ไม่ต้องดาวน์โหลดอะไร</p>
+<ol>
+  <li>เปิด <code>https://github.com/kiattisaklug-create/AESTIVA-website</code></li>
+  <li>คลิกไฟล์ <code>content.js</code></li>
+  <li>กดรูป <b>ดินสอ</b> (Edit this file) ด้านขวาบนของกล่องไฟล์</li>
+  <li>แก้ข้อความ ตามตัวอย่างด้านล่าง</li>
+  <li>กดปุ่มสีเขียว <b>Commit changes…</b> แล้วกด <b>Commit changes</b> อีกครั้งในหน้าต่างที่ขึ้นมา</li>
+  <li>รอประมาณ 1–2 นาที Railway จะอัปเดตเว็บให้เอง แล้วรีเฟรชหน้าเว็บ (<span class="k">Ctrl</span> + <span class="k">F5</span>)</li>
+</ol>
+
+<div class="box warn"><b>กติกา 4 ข้อ ก่อนแก้ทุกครั้ง</b>
+<ol>
+  <li>แก้เฉพาะ<b>ข้อความที่อยู่ในเครื่องหมายคำพูด "..."</b> หรือ<b>ตัวเลขราคา</b>เท่านั้น</li>
+  <li>ห้ามลบเครื่องหมาย <code>,</code> ที่ท้ายบรรทัด</li>
+  <li>ห้ามลบเครื่องหมาย <code>{ } [ ]</code></li>
+  <li>บรรทัดที่ขึ้นต้นด้วย <code>//</code> คือหมายเหตุ ไม่มีผลกับหน้าเว็บ</li>
+</ol></div>
+
+<h3>ตัวอย่างที่แก้บ่อย</h3>
+<p><b>เปลี่ยนราคา</b> หาชื่อแพ็กเกจ แล้วแก้ตัวเลขหลัง <code>price:</code> (ใส่ตัวเลขล้วน ไม่ต้องมี ฿ หรือ ,)</p>
+<pre>name: "Pro",
+price: 2490,      ← เปลี่ยนเป็น 2790</pre>
+
+<p><b>เพิ่มเบอร์โทรหรืออีเมล</b> ใส่ค่าในเครื่องหมายคำพูด ระบบจะแสดงให้เองในหัวข้อติดต่อและท้ายเว็บ</p>
+<pre>phone: "081-234-5678",
+email: "hello@aestiva.co.th",</pre>
+
+<p><b>ประกาศอัปเดต / เวอร์ชันใหม่</b> แก้ <code>latestVersion</code> และแก้ข้อความในหัวข้อ <code>updates</code></p>
+<pre>latestVersion: "V1.1",</pre>
+<p>ถ้าจะเพิ่มรายการอัปเดตใหม่ ให้คัดลอกทั้งบล็อกตั้งแต่ <code>{</code> ถึง <code>},</code> ของรายการเดิมไปวางต่อท้าย แล้วแก้ข้อความ</p>
+
+<p><b>เพิ่มคลินิกที่ใช้ระบบ</b> (แนะนำให้ขออนุญาตคลินิกก่อนเผยแพร่ชื่อและโลโก้) หาหัวข้อ <code>clinics: [</code> แล้วเพิ่มบล็อกตามนี้ระหว่าง <code>[</code> กับ <code>]</code></p>
+<pre>clinics: [
+  {
+    name: "ชื่อคลินิก",
+    logo: "",
+    note: "กรุงเทพฯ"
+  },
+  {
+    name: "อีกคลินิกหนึ่ง",
+    logo: "",
+    note: "เชียงใหม่"
+  },
+],</pre>
+<p>เมื่อมีคลินิกอย่างน้อย 1 แห่ง ข้อความ "กำลังเปิดตัวร่วมกับคลินิกพันธมิตร" จะหายไปเอง และแสดงเป็นการ์ดชื่อคลินิกแทน</p>
+
+<p><b>เพิ่มคำถามที่พบบ่อย</b> คัดลอกบล็อก <code>{ q: "...", a: "..." },</code> ของเดิมไปวางต่อท้ายในหัวข้อ <code>faq</code> แล้วแก้คำถามและคำตอบ</p>
+
+<h3>อยากดูผลก่อนขึ้นเว็บจริง</h3>
+<ol>
+  <li>ดาวน์โหลดโฟลเดอร์เว็บลงเครื่อง (ตามข้อ 2 ขั้น A)</li>
+  <li>คลิกขวาที่ <code>content.js</code> เลือก <b>Open with</b> แล้วเลือก <b>Notepad</b></li>
+  <li>แก้ข้อความ แล้วกด <span class="k">Ctrl</span> + <span class="k">S</span></li>
+  <li>ดับเบิลคลิก <code>index.html</code> เพื่อดูผล ถ้ามีแถบสีแดงขึ้นด้านบนของหน้า แปลว่ามีเครื่องหมายหายหรือเกิน ให้ตรวจตามกติกา 4 ข้อ</li>
+  <li>พอพอใจแล้ว ค่อยอัปโหลดไฟล์ <code>content.js</code> ขึ้น GitHub (Add file → Upload files → ลากไฟล์ที่แก้ → Commit changes)</li>
+</ol>
+
+<h2 id="d">4) เพิ่มโลโก้คลินิกที่ใช้ระบบ</h2>
+<ol>
+  <li>เตรียมไฟล์โลโก้เป็น <code>.png</code> พื้นโปร่งใส หรือ <code>.jpg</code> ตั้งชื่อเป็นภาษาอังกฤษไม่มีเว้นวรรค เช่น <code>clinic-a.png</code></li>
+  <li>เปิด GitHub → คลิกโฟลเดอร์ <code>assets</code> → <b>Add file</b> → <b>Upload files</b> → ลากไฟล์โลโก้มาวาง → <b>Commit changes</b></li>
+  <li>เปิด <code>content.js</code> (ตามข้อ 3) แล้วใส่ชื่อไฟล์ในช่อง <code>logo</code></li>
+</ol>
+<pre>{
+  name: "ชื่อคลินิก",
+  logo: "assets/clinic-a.png",
+  note: "กรุงเทพฯ"
+},</pre>
+
+<h2 id="e">5) เปลี่ยนสีของเว็บ</h2>
+<ol>
+  <li>เปิดไฟล์ <code>styles.css</code> (บน GitHub กดรูปดินสอเหมือนข้อ 3)</li>
+  <li>ที่ส่วนบนสุดจะมีกลุ่มสี เช่น <code>--gold: #D4AF37;</code> เปลี่ยนรหัสสีตรงนั้น ทั้งเว็บจะเปลี่ยนตาม</li>
+  <li>แก้เฉพาะรหัสสีหลัง <code>:</code> (ขึ้นต้นด้วย <code>#</code>) อย่าลบเครื่องหมาย <code>;</code></li>
+</ol>
+
+<h2 id="f">6) ถ้ามีอะไรผิดพลาด</h2>
+<table>
+<tr><th>อาการ</th><th>วิธีแก้</th></tr>
+<tr><td>แก้แล้วเว็บจริงไม่เปลี่ยน</td><td>รอ 2 นาที แล้วกด <span class="k">Ctrl</span> + <span class="k">F5</span> และเช็คแท็บ Deployments ใน Railway ว่าขึ้น Active</td></tr>
+<tr><td>Railway ขึ้น Failed</td><td>มักเกิดจากแก้ไฟล์ <code>script.js</code>, <code>server.js</code> หรือ <code>package.json</code> โดยไม่ตั้งใจ ให้กลับไปที่ GitHub เปิดไฟล์นั้น กด <b>History</b> แล้วย้อนกลับเป็นเวอร์ชันก่อนหน้า</td></tr>
+<tr><td>ตอนเปิดด้วยดับเบิลคลิกมีแถบแดงด้านบน</td><td>เครื่องหมาย <code>, " " { } [ ]</code> ใน <code>content.js</code> หายหรือเกิน ดูบรรทัดที่เพิ่งแก้</td></tr>
+<tr><td>แก้ผิดจนไม่รู้จะแก้ยังไง</td><td>เปิด <code>content.js</code> บน GitHub กด <b>History</b> เลือกเวอร์ชันก่อนหน้า แล้วกด <b>&lt;&gt;</b> เพื่อดูไฟล์เดิม คัดลอกมาวางทับได้</td></tr>
+</table>
+<p>ทุกครั้งที่ Commit GitHub จะเก็บประวัติไว้ ย้อนกลับได้เสมอ จึงลองแก้ได้อย่างสบายใจ</p>
+
+</main>
+</body>
+</html>
