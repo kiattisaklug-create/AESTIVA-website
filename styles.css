@@ -528,3 +528,7 @@ html:not(.js) .path::before{transform:none}
   .js .reveal{opacity:1;transform:none}
   .path::before{transform:none}
 }
+
+/* หมายเหตุเรื่องสถิติท้ายเว็บ */
+.footer__note{display:block;font-size:.8rem;opacity:.75;margin-top:.15rem}
+@media (min-width:821px){.footer__note{display:inline;margin-left:.6rem;margin-top:0}}

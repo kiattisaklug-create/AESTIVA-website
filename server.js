@@ -11,6 +11,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const zlib = require("zlib");
+const analytics = require("./analytics"); // ระบบนับสถิติ (ดูไฟล์ analytics.js)
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
@@ -33,7 +34,7 @@ const MIME = {
 };
 
 // ไฟล์ที่อนุญาตให้คนทั่วไปเปิดดูได้
-const PUBLIC_FILES = new Set(["/index.html", "/styles.css", "/script.js", "/content.js", "/robots.txt", "/sitemap.xml"]);
+const PUBLIC_FILES = new Set(["/index.html", "/styles.css", "/script.js", "/content.js", "/pulse.js", "/robots.txt", "/sitemap.xml"]);
 const PUBLIC_DIRS = ["/assets/"];
 const COMPRESSIBLE = new Set([".html", ".css", ".js", ".json", ".txt", ".xml", ".svg"]);
 
@@ -76,6 +77,9 @@ function cacheControl(ext, filePath) {
 const gzipCache = new Map();
 
 const server = http.createServer((req, res) => {
+  // เส้นทางของระบบสถิติ: /api/pulse (รับข้อมูล), /stats (หน้าดูสถิติ), /api/stats
+  if (analytics.handle(req, res)) return;
+
   if (req.method !== "GET" && req.method !== "HEAD") {
     res.writeHead(405, { Allow: "GET, HEAD" });
     return res.end();

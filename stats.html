@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#FAF9F6">
+<title>สถิติเว็บไซต์ | AESTIVA</title>
+<link rel="icon" href="/assets/favicon.png">
+<style>
+@font-face{font-family:"Cormorant Garamond";font-weight:600;font-display:swap;src:url(/assets/fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:"IBM Plex Sans Thai";font-weight:400;font-display:swap;src:url(/assets/fonts/ibm-plex-sans-thai-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:"IBM Plex Sans Thai";font-weight:400;font-display:swap;src:url(/assets/fonts/ibm-plex-sans-thai-thai-400-normal.woff2) format("woff2");unicode-range:U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"IBM Plex Sans Thai";font-weight:500;font-display:swap;src:url(/assets/fonts/ibm-plex-sans-thai-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:"IBM Plex Sans Thai";font-weight:500;font-display:swap;src:url(/assets/fonts/ibm-plex-sans-thai-thai-500-normal.woff2) format("woff2");unicode-range:U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"IBM Plex Sans Thai";font-weight:600;font-display:swap;src:url(/assets/fonts/ibm-plex-sans-thai-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC}
+@font-face{font-family:"IBM Plex Sans Thai";font-weight:600;font-display:swap;src:url(/assets/fonts/ibm-plex-sans-thai-thai-600-normal.woff2) format("woff2");unicode-range:U+0E01-0E5B,U+200C-200D,U+25CC}
+
+:root{
+  --ivory:#FAF9F6; --pearl:#F4EFE6; --line:#E8E1D6; --ink:#3A2E1F; --ink-soft:#66573F; --ink-mute:#8A7B62;
+  --gold:#D4AF37; --gold-deep:#B8860B; --gold-light:#F7E7B7; --gold-ink:#8A6410;
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"IBM Plex Sans Thai","Leelawadee UI",Tahoma,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);line-height:1.65;font-size:16px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px 64px}
+header.top{position:sticky;top:0;z-index:5;background:rgba(250,249,246,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top__in{max-width:1080px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.brand img{width:38px;height:38px;border-radius:50%}
+.brand b{font-family:var(--serif);font-size:1.25rem;letter-spacing:.16em;font-weight:600}
+.brand small{display:block;font-size:.78rem;color:var(--ink-mute);letter-spacing:0;line-height:1.2}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;background:#fff;padding:3px}
+.seg button{border:0;background:transparent;font:500 .9rem var(--sans);color:var(--ink-soft);padding:6px 14px;border-radius:999px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#2B1F0D}
+.ghost{border:1px solid var(--line);background:#fff;color:var(--ink-soft);font:500 .9rem var(--sans);padding:7px 14px;border-radius:999px;cursor:pointer;min-height:36px}
+.ghost:hover{border-color:var(--gold)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,5vw,2.6rem);margin:28px 0 2px;line-height:1.15}
+.sub{color:var(--ink-mute);margin:0 0 20px;font-size:.95rem}
+.banner{border-radius:12px;padding:12px 16px;margin:0 0 18px;font-size:.95rem}
+.banner.warn{background:#FFF6E0;border:1px solid #E9CF8A;color:#6B4E08}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:760px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.kpi small{display:block;color:var(--ink-mute);font-size:.85rem}
+.kpi b{display:block;font-family:var(--sans);font-weight:600;font-size:2.1rem;line-height:1.2;color:var(--ink);margin-top:2px}
+.kpi span{font-size:.8rem;color:var(--ink-mute)}
+.insights{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.insights li{background:var(--pearl);border-left:4px solid var(--gold);border-radius:10px;padding:10px 14px;font-size:.95rem}
+section.blk{margin-top:30px}
+h2{font-size:1.15rem;margin:0 0 4px;font-weight:600}
+.hint{color:var(--ink-mute);font-size:.86rem;margin:0 0 12px}
+.grid2{display:grid;gap:16px}
+.grid2>*,.links,.lnk,.kpis>*{min-width:0}
+@media(min-width:860px){.grid2{grid-template-columns:1fr 1fr}}
+.chart svg{display:block;width:100%;height:auto}
+.legend{display:flex;gap:16px;font-size:.82rem;color:var(--ink-soft);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:baseline;font-size:.93rem}
+.bar .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .t small{color:var(--ink-mute);margin-left:6px;font-size:.8rem}
+.bar .n{font-variant-numeric:tabular-nums;color:var(--ink-soft);font-weight:500}
+.bar .track{grid-column:1/-1;height:8px;background:var(--pearl);border-radius:99px;overflow:hidden}
+.bar .fill{height:100%;background:linear-gradient(90deg,var(--gold-light),var(--gold) 60%,var(--gold-deep));border-radius:99px;min-width:2px}
+.empty{color:var(--ink-mute);font-size:.92rem;padding:8px 0}
+.dev{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--pearl);margin:6px 0 10px}
+.dev i{display:block;height:100%}
+.dev-legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem}
+.dev-legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px}
+.links{display:grid;gap:8px}
+.lnk{display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--pearl);border-radius:10px;padding:8px 12px;font-size:.88rem}
+.lnk code{min-width:0;flex:1 1 auto;overflow-wrap:anywhere;font-size:.85rem;color:var(--gold-ink)}
+.lnk button{flex:none}
+details.help{margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+details.help summary{cursor:pointer;font-weight:600}
+details.help ul{margin:10px 0 0;padding-left:1.2rem;color:var(--ink-soft);font-size:.93rem}
+details.help li{margin:6px 0}
+.foot{margin-top:28px;color:var(--ink-mute);font-size:.82rem;text-align:center}
+.load{padding:48px 0;text-align:center;color:var(--ink-mute)}
+</style>
+</head>
+<body>
+<header class="top"><div class="top__in">
+  <div class="brand"><img src="/assets/logo-mark.webp" alt=""><div><b>AESTIVA</b><small>สถิติเว็บไซต์ (เห็นเฉพาะเจ้าของ)</small></div></div>
+  <div class="seg" role="group" aria-label="ช่วงเวลา">
+    <button type="button" data-days="7" aria-pressed="false">7 วัน</button>
+    <button type="button" data-days="30" aria-pressed="true">30 วัน</button>
+    <button type="button" data-days="90" aria-pressed="false">90 วัน</button>
+  </div>
+  <button class="ghost" id="refresh" type="button">รีเฟรช</button>
+</div></header>
+
+<main class="wrap" id="app"><div class="load">กำลังโหลดข้อมูล…</div></main>
+
+<script>
+(function () {
+  "use strict";
+  var app = document.getElementById("app");
+  var days = 30, data = null;
+
+  var SECTION_ORDER = ["home","why","features","philosophy","modules","pricing","updates","clinics","faq","contact"];
+  var SECTION_TH = { home:"หน้าแรก (ส่วนบนสุด)", why:"ทำไมต้อง AESTIVA", features:"ฟีเจอร์ / ตัวอย่างระบบ", philosophy:"แนวคิดของ AESTIVA", modules:"โมดูลที่ขยายได้",
+    pricing:"ราคา", updates:"อัปเดตและเวอร์ชัน", clinics:"คลินิกที่ใช้", faq:"คำถามที่พบบ่อย", contact:"ติดต่อ / ขอ Demo", nav:"เมนูบนสุด", footer:"ท้ายเว็บ", fab:"ปุ่มลอย LINE" };
+  var KIND_TH = { line:"LINE", tab:"แท็บ", faq:"คำถาม", link:"ลิงก์", tiktok:"TikTok", instagram:"Instagram", phone:"โทร", email:"อีเมล", menu:"เมนู", button:"ปุ่ม" };
+  var SRC_TH = { direct:"พิมพ์ลิงก์ตรง / ไม่ทราบที่มา", tiktok:"TikTok", instagram:"Instagram", line:"LINE", facebook:"Facebook", google:"Google", bing:"Bing", youtube:"YouTube", x:"X (Twitter)" };
+  var DEV_TH = { mobile:"มือถือ", tablet:"แท็บเล็ต", desktop:"คอมพิวเตอร์", unknown:"ไม่ทราบ" };
+  var DEV_COLOR = { mobile:"#D4AF37", tablet:"#F7E7B7", desktop:"#B8860B", unknown:"#E8E1D6" };
+
+  function esc(v){ return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function fmt(n){ return Number(n||0).toLocaleString("en-US"); }
+  function pct(a,b){ return b>0 ? Math.round(a*1000/b)/10 : 0; }
+  function thDate(d){ var p=d.split("-"); var m=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."]; return Number(p[2])+" "+m[Number(p[1])-1]; }
+
+  function barRow(label, sub, n, max, suffix){
+    var w = max>0 ? Math.max(2, Math.round(n*100/max)) : 0;
+    return '<div class="bar"><div class="t">'+esc(label)+(sub?'<small>'+esc(sub)+'</small>':'')+'</div><div class="n">'+esc(suffix||fmt(n))+'</div><div class="track"><div class="fill" style="width:'+w+'%"></div></div></div>';
+  }
+
+  function innerW(half){ var w=app.clientWidth||360; var card = (half && w>=860) ? (w-16)/2 : w; return Math.max(280, Math.round(card-38)); }
+
+  function dailyChart(daily){
+    var W=innerW(false),H=W<520?190:230,pl=34,pr=8,pt=10,pb=26, iw=W-pl-pr, ih=H-pt-pb;
+    var max=0; daily.forEach(function(x){ if(x.views>max) max=x.views; });
+    if(max<4) max=4;
+    var step = max<=10?2: max<=40?10: max<=100?20: max<=400?100: Math.pow(10,Math.floor(Math.log10(max)));
+    var top = Math.ceil(max/step)*step;
+    var n=daily.length, slot=iw/n, bw=Math.max(1.5, Math.min(22, slot*0.72));
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟจำนวนการเข้าชมรายวัน">';
+    for(var g=0; g<=top; g+=step){
+      var y=pt+ih-(g/top)*ih;
+      s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+y+'" y2="'+y+'" stroke="#E8E1D6" stroke-width="1"/><text x="'+(pl-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="#8A7B62">'+g+'</text>';
+    }
+    var every = n<=10?1: n<=31?5: 10;
+    daily.forEach(function(x,i){
+      var cx=pl+slot*i+slot/2;
+      var hv=(x.views/top)*ih, hu=(x.visitors/top)*ih;
+      s+='<g><title>'+esc(thDate(x.d))+' — เข้าชม '+x.views+' ครั้ง, ผู้เข้าชม '+x.visitors+' คน, กดปุ่ม '+x.clicks+' ครั้ง</title>'+
+         '<rect x="'+(cx-slot/2)+'" y="'+pt+'" width="'+slot+'" height="'+ih+'" fill="transparent"/>'+
+         '<rect x="'+(cx-bw/2)+'" y="'+(pt+ih-hv)+'" width="'+bw+'" height="'+Math.max(hv,x.views?1.5:0)+'" rx="2" fill="#F1DC8B"/>'+
+         '<rect x="'+(cx-bw/2)+'" y="'+(pt+ih-hu)+'" width="'+bw+'" height="'+Math.max(hu,x.visitors?1.5:0)+'" rx="2" fill="#B8860B"/></g>';
+      if(i%every===0 || i===n-1) s+='<text x="'+cx+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#8A7B62">'+esc(thDate(x.d))+'</text>';
+    });
+    return s+'</svg>';
+  }
+
+  function hoursChart(h){
+    var W=innerW(true),H=150,pl=4,pr=4,pt=8,pb=24, iw=W-pl-pr, ih=H-pt-pb, max=Math.max.apply(null,h.concat([1]));
+    var slot=iw/24, bw=slot*0.7, s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟช่วงเวลาที่มีคนเข้าชม">';
+    h.forEach(function(v,i){
+      var hh=(v/max)*ih, x=pl+slot*i+(slot-bw)/2;
+      s+='<g><title>'+String(i).padStart(2,"0")+':00 น. — '+v+' ครั้ง</title><rect x="'+x+'" y="'+(pt+ih-hh)+'" width="'+bw+'" height="'+Math.max(hh,v?1.5:0)+'" rx="2" fill="#D4AF37"/></g>';
+      if(i%3===0) s+='<text x="'+(x+bw/2)+'" y="'+(H-7)+'" text-anchor="middle" font-size="12" fill="#8A7B62">'+i+'</text>';
+    });
+    return s+'</svg>';
+  }
+
+  function render(){
+    var d=data, t=d.totals, views=t.views;
+    var html='';
+    html+='<h1>ภาพรวมเว็บไซต์</h1><p class="sub">'+esc(thDate(d.from))+' – '+esc(thDate(d.to))+' ('+d.days+' วันล่าสุด) · เวลาประเทศไทย</p>';
+    if(!d.persistent) html+='<div class="banner warn">⚠️ ยังไม่ได้ต่อ Volume บน Railway — ข้อมูลสถิติจะ<b>หายทุกครั้งที่ Deploy ใหม่</b> (ดูคู่มือ START-HERE ข้อ 7 ขั้น B)</div>';
+
+    html+='<div class="kpis">'+
+      '<div class="card kpi"><small>ครั้งที่เข้าชม</small><b>'+fmt(views)+'</b><span>เปิดหน้าเว็บกี่ครั้ง</span></div>'+
+      '<div class="card kpi"><small>ผู้เข้าชม</small><b>'+fmt(t.visitors)+'</b><span>นับคนต่อวัน (คนเดิมวันถัดไป นับใหม่)</span></div>'+
+      '<div class="card kpi"><small>ครั้งที่กดติดต่อ</small><b>'+fmt(t.contactActions)+'</b><span>LINE / โทร / อีเมล</span></div>'+
+      '<div class="card kpi"><small>อัตราการติดต่อ</small><b>'+pct(t.contactVisitors,t.visitors)+'%</b><span>ในผู้เข้าชม 100 คน มีกี่คนกดติดต่อ</span></div>'+
+    '</div>';
+
+    // ข้อสังเกตอัตโนมัติ
+    var tips=[];
+    if(d.clicks.length){ var c=d.clicks[0]; tips.push('ปุ่มที่ถูกกดมากที่สุด: <b>'+esc(c.l)+'</b> ('+fmt(c.count)+' ครั้ง'+(c.s&&SECTION_TH[c.s]?' · ตำแหน่ง: '+esc(SECTION_TH[c.s]):'')+')'); }
+    if(views>=20){
+      var reach=SECTION_ORDER.map(function(id){ var f=d.sections.filter(function(s){return s.s===id;})[0]; return {id:id,p:pct(f?Math.min(f.count,views):0,views)}; });
+      var worst=null;
+      for(var i=1;i<reach.length;i++){ var drop=reach[i-1].p-reach[i].p; if(!worst||drop>worst.drop) worst={drop:drop,from:reach[i-1],to:reach[i]}; }
+      if(worst&&worst.drop>=10) tips.push('คนเลื่อนออกจากหน้าเว็บมากที่สุดช่วง <b>'+esc(SECTION_TH[worst.from.id])+' → '+esc(SECTION_TH[worst.to.id])+'</b> (จาก '+worst.from.p+'% เหลือ '+worst.to.p+'%) — ลองดูว่าส่วนนั้นยาวหรือน่าเบื่อไปหรือไม่');
+    }
+    if(d.sources.length){ var s0=d.sources[0]; tips.push('คนมาจาก <b>'+esc(SRC_TH[s0.src]||s0.src)+'</b> มากที่สุด ('+pct(s0.views,views)+'%)'); }
+    if(tips.length) html+='<ul class="insights">'+tips.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+
+    html+='<section class="blk"><div class="card chart"><h2>คนเข้าเว็บรายวัน</h2><p class="hint">แตะ/วางเมาส์บนแท่งเพื่อดูตัวเลขของวันนั้น</p>'+dailyChart(d.daily)+
+      '<div class="legend"><span><i style="background:#F1DC8B"></i>ครั้งที่เข้าชม</span><span><i style="background:#B8860B"></i>ผู้เข้าชม</span></div></div></section>';
+
+    // ส่วนที่เลื่อนไปถึง + ปุ่มที่ถูกกด
+    var reachRows=SECTION_ORDER.map(function(id){ var f=d.sections.filter(function(s){return s.s===id;})[0]; var n=f?Math.min(f.count,views):0; return barRow(SECTION_TH[id],'',n,views, views?pct(n,views)+'%':'0%'); }).join('');
+    var maxClick=d.clicks.length?d.clicks[0].count:0;
+    var clickRows=d.clicks.slice(0,15).map(function(c){
+      var sub=(KIND_TH[c.k]||c.k)+(c.s&&SECTION_TH[c.s]?' · '+SECTION_TH[c.s]:'');
+      return barRow(c.l,sub,c.count,maxClick);
+    }).join('');
+    html+='<section class="blk grid2">'+
+      '<div class="card"><h2>ส่วนของหน้าเว็บที่คนเลื่อนไปถึง</h2><p class="hint">เปอร์เซ็นต์ของผู้เข้าชมที่เลื่อนมาเห็นส่วนนั้น (เรียงตามลำดับบนหน้าเว็บ)</p><div class="bars">'+(views?reachRows:'<div class="empty">ยังไม่มีข้อมูล</div>')+'</div></div>'+
+      '<div class="card"><h2>ปุ่ม / แท็บ / คำถามที่ถูกกดมากที่สุด</h2><p class="hint">แสดง 15 อันดับแรก พร้อมตำแหน่งที่กด</p><div class="bars">'+(clickRows||'<div class="empty">ยังไม่มีข้อมูล</div>')+'</div></div>'+
+    '</section>';
+
+    // ที่มา + อุปกรณ์
+    var maxSrc=d.sources.length?d.sources[0].views:0;
+    var srcRows=d.sources.map(function(s){ return barRow(SRC_TH[s.src]||s.src,'',s.views,maxSrc,fmt(s.views)+' ('+pct(s.views,views)+'%)'); }).join('');
+    var devTotal=0; Object.keys(d.devices).forEach(function(k){devTotal+=d.devices[k];});
+    var devBar='', devLeg='';
+    ["mobile","tablet","desktop","unknown"].forEach(function(k){ var n=d.devices[k]||0; if(!n) return;
+      devBar+='<i style="width:'+pct(n,devTotal)+'%;background:'+DEV_COLOR[k]+'"></i>';
+      devLeg+='<span><i style="background:'+DEV_COLOR[k]+'"></i>'+DEV_TH[k]+' '+pct(n,devTotal)+'%</span>'; });
+    html+='<section class="blk grid2">'+
+      '<div class="card"><h2>คนมาจากช่องทางไหน</h2><p class="hint">ลิงก์ที่ใส่ <code>?src=ชื่อช่องทาง</code> จะแสดงชื่อนั้นตรงๆ (ดูตัวช่วยสร้างลิงก์ด้านล่าง)</p><div class="bars">'+(srcRows||'<div class="empty">ยังไม่มีข้อมูล</div>')+'</div></div>'+
+      '<div class="card"><h2>อุปกรณ์ที่ใช้</h2><div class="dev">'+devBar+'</div><div class="dev-legend">'+(devLeg||'<span class="empty">ยังไม่มีข้อมูล</span>')+'</div>'+
+      '<h2 style="margin-top:22px">ช่วงเวลาที่มีคนเข้าชม</h2><p class="hint">ชั่วโมงของวัน (เวลาไทย) — ใช้เลือกเวลาโพสต์ TikTok / IG</p>'+hoursChart(d.hours)+'</div>'+
+    '</section>';
+
+    // ตัวช่วยสร้างลิงก์
+    var base=location.origin+"/";
+    var names=["tiktok","instagram","line","facebook"];
+    html+='<section class="blk"><div class="card"><h2>ลิงก์สำหรับใส่ตามช่องทางต่างๆ</h2><p class="hint">TikTok และ Instagram มักไม่ส่งข้อมูลว่าคนมาจากไหน ให้ใช้ลิงก์เหล่านี้ใส่ในโปรไฟล์หรือโพสต์ เพื่อให้สถิติแยกช่องทางได้ถูกต้อง</p><div class="links">'+
+      names.map(function(n){ var u=base+"?src="+n; return '<div class="lnk"><code>'+esc(u)+'</code><button class="ghost" type="button" data-copy="'+esc(u)+'">คัดลอก</button></div>'; }).join('')+
+    '</div></div></section>';
+
+    html+='<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px"><button class="ghost" id="csv-daily" type="button">ดาวน์โหลด CSV รายวัน</button><button class="ghost" id="csv-clicks" type="button">ดาวน์โหลด CSV ปุ่มที่ถูกกด</button></div>';
+
+    html+='<details class="help"><summary>วิธีอ่านตัวเลข และสิ่งที่ควรรู้</summary><ul>'+
+      '<li><b>ผู้เข้าชม</b> นับแยกเป็นรายวัน เพราะระบบไม่ใช้คุกกี้และไม่จำตัวคน คนเดิมที่กลับมาวันถัดไปจึงนับเป็นอีกคน</li>'+
+      '<li>การเปิดหน้าเว็บของ<b>ตัวเอง</b> ไม่อยากให้นับ: เปิดลิงก์ <code>'+esc(base)+'?notrack=1</code> หนึ่งครั้งบนเครื่องนั้น (ใช้ ?notrack=0 เพื่อยกเลิก)</li>'+
+      '<li>ผู้ที่ตั้งค่า Do Not Track หรือใช้ตัวบล็อกโฆษณาบางตัว จะไม่ถูกนับ ตัวเลขจริงจึงอาจสูงกว่าที่เห็นเล็กน้อย</li>'+
+      '<li>บอทและตัวตรวจเว็บที่แจ้งตัวตนชัดเจนจะไม่ถูกนับ</li>'+
+      '<li>ตัวเลขน้อยกว่า 30–50 ครั้ง ยังไม่ควรใช้ตัดสินใจ ให้รอสะสมข้อมูลสัก 2–4 สัปดาห์</li></ul></details>';
+
+    html+='<p class="foot">อัปเดตล่าสุด '+new Date(d.generatedAt).toLocaleString("th-TH")+'</p>';
+    app.innerHTML=html;
+
+    Array.prototype.forEach.call(app.querySelectorAll("[data-copy]"), function(b){
+      b.addEventListener("click", function(){
+        var v=b.getAttribute("data-copy");
+        var done=function(){ b.textContent="คัดลอกแล้ว"; setTimeout(function(){b.textContent="คัดลอก";},1500); };
+        if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(v).then(done,function(){window.prompt("คัดลอกลิงก์นี้",v);}); }
+        else window.prompt("คัดลอกลิงก์นี้",v);
+      });
+    });
+    document.getElementById("csv-daily").addEventListener("click", function(){
+      csv("aestiva-daily-"+d.to+".csv", [["วันที่","ครั้งที่เข้าชม","ผู้เข้าชม","กดปุ่ม"]].concat(d.daily.map(function(x){return [x.d,x.views,x.visitors,x.clicks];})));
+    });
+    document.getElementById("csv-clicks").addEventListener("click", function(){
+      csv("aestiva-clicks-"+d.to+".csv", [["ประเภท","ปุ่ม/ข้อความ","ตำแหน่ง","จำนวนครั้ง"]].concat(d.clicks.map(function(c){return [KIND_TH[c.k]||c.k,c.l,SECTION_TH[c.s]||c.s,c.count];})));
+    });
+  }
+
+  function csv(name, rows){
+    var text="\uFEFF"+rows.map(function(r){ return r.map(function(v){ v=String(v==null?"":v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(","); }).join("\r\n");
+    var a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"})); a.download=name; document.body.appendChild(a); a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href); a.remove();},500);
+  }
+
+  function load(){
+    app.innerHTML='<div class="load">กำลังโหลดข้อมูล…</div>';
+    fetch("/api/stats?days="+days,{credentials:"same-origin",cache:"no-store"}).then(function(r){
+      if(r.status===401){ location.reload(); throw new Error("auth"); }
+      if(!r.ok) throw new Error("http "+r.status);
+      return r.json();
+    }).then(function(j){ data=j; render(); }).catch(function(e){
+      if(e&&e.message==="auth") return;
+      app.innerHTML='<div class="load">โหลดข้อมูลไม่สำเร็จ ลองกด "รีเฟรช" อีกครั้ง</div>';
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(b){
+    b.addEventListener("click", function(){
+      days=parseInt(b.getAttribute("data-days"),10);
+      Array.prototype.forEach.call(document.querySelectorAll(".seg button"), function(x){ x.setAttribute("aria-pressed", x===b?"true":"false"); });
+      load();
+    });
+  });
+  document.getElementById("refresh").addEventListener("click", load);
+  load();
+})();
+</script>
+</body>
+</html>
