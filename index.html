@@ -6,6 +6,7 @@
   <title>AESTIVA | ระบบจัดการคลินิกศัลยกรรมและความงาม</title>
   <meta name="description" content="AESTIVA ระบบจัดการคลินิกศัลยกรรมและความงาม ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง — นัดหมาย OPD จ่ายยา เอกสาร LINE OA รายรับ และ Audit Log ในระบบเดียว">
   <meta name="theme-color" content="#FAF9F6">
+  <meta name="aestiva-site-version" content="3">
 
   <!-- ✏️ ตอนแชร์ลิงก์ลง LINE / Facebook: ถ้าเปลี่ยนโดเมนใหม่ ให้แก้ที่อยู่ 2 บรรทัดนี้ (og:url และ og:image) -->
   <meta property="og:type" content="website">
@@ -64,6 +65,7 @@
 
     <nav class="nav__links" id="nav-links" aria-label="เมนูหลัก">
       <a href="#features">ฟีเจอร์</a>
+      <a href="#screens" data-screens-nav hidden>ภาพหน้าจอ</a>
       <a href="#modules">โมดูล</a>
       <a href="#pricing">ราคา</a>
       <a href="#updates">อัปเดต</a>
@@ -316,6 +318,18 @@
     </div>
   </section>
 
+  <!-- ============================ ภาพหน้าจอโปรแกรม (ซ่อนเองถ้ายังไม่มีภาพ — จัดการผ่านโปรแกรม Admin) ============================ -->
+  <section class="section screens" id="screens" hidden>
+    <div class="wrap">
+      <div class="sec-head sec-head--center">
+        <i class="orn" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+        <h2 data-render="screens-title">ภาพหน้าจอจากระบบ</h2>
+        <p data-render="screens-text">หน้าตาการใช้งานจริงของ AESTIVA แตะที่ภาพเพื่อดูขยาย</p>
+      </div>
+      <div class="shots" data-render="screens"></div>
+    </div>
+  </section>
+
   <!-- ============================ แนวคิด (พื้นหลังเข้ม) ============================ -->
   <section class="section section--night philosophy" id="philosophy">
     <div class="wrap philosophy__grid">
@@ -434,6 +448,7 @@
     </div>
     <nav class="footer__nav" aria-label="ลิงก์ท้ายเว็บ">
       <a href="#features">ฟีเจอร์</a>
+      <a href="#screens" data-screens-nav hidden>ภาพหน้าจอ</a>
       <a href="#modules">โมดูล</a>
       <a href="#pricing">ราคา</a>
       <a href="#updates">อัปเดต</a>
@@ -447,6 +462,25 @@
     <p>Built for real clinic operations.<span class="footer__note"> เว็บนี้เก็บสถิติการเข้าชมแบบไม่ระบุตัวตน ไม่ใช้คุกกี้</span></p>
   </div>
 </footer>
+
+<!-- หน้าต่างดูภาพขยาย -->
+<dialog class="lightbox" id="lightbox" aria-label="ดูภาพขยาย">
+  <div class="lightbox__box">
+    <button class="lightbox__btn lightbox__close" type="button" data-lb="close" aria-label="ปิด">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <img class="lightbox__img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=">
+    <div class="lightbox__bar">
+      <button class="lightbox__btn" type="button" data-lb="prev" aria-label="ภาพก่อนหน้า">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <p class="lightbox__cap" aria-live="polite"></p>
+      <button class="lightbox__btn" type="button" data-lb="next" aria-label="ภาพถัดไป">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+</dialog>
 
 <!-- ปุ่มลอยติดต่อ LINE (โผล่หลังเลื่อนลงมาเล็กน้อย) -->
 <a class="fab" id="fab" data-line-msg="สนใจระบบ AESTIVA" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener" aria-label="คุยกับทีม AESTIVA ผ่าน LINE">

@@ -1,6 +1,6 @@
 /* =====================================================================
    AESTIVA — script.js
-   หน้าที่: อ่านข้อมูลจาก content.js มาสร้างส่วนราคา/โมดูล/อัปเดต/คลินิก/คำถาม
+   หน้าที่: อ่านข้อมูลจาก content.js มาสร้างส่วนราคา/โมดูล/อัปเดต/คลินิก/คำถาม/ภาพหน้าจอ
             + เมนูมือถือ + แท็บตัวอย่างระบบ + เอฟเฟกต์ตอนเลื่อนหน้า
    (ปกติไม่ต้องแก้ไฟล์นี้ — แก้ข้อมูลที่ content.js แทน)
    ===================================================================== */
@@ -156,6 +156,75 @@
     el.innerHTML = arr(C.faq).map(function (f) {
       return "<details><summary>" + esc(f.q) + '</summary><div class="faq__a"><p>' + esc(f.a) + "</p></div></details>";
     }).join("");
+  }
+
+  /* ---------- 7) ภาพหน้าจอโปรแกรม (ไม่มีภาพ = ซ่อนทั้งส่วน) ---------- */
+  var shotList = [];
+  function renderScreens() {
+    var sec = $("#screens"), el = $("[data-render='screens']");
+    if (!sec || !el) return;
+    shotList = arr(C.screenshots).filter(function (s) { return s && s.image && !s.hidden; });
+    if (!shotList.length) return;
+    var t = $("[data-render='screens-title']"), x = $("[data-render='screens-text']");
+    if (t && C.screensTitle) t.textContent = C.screensTitle;
+    if (x && C.screensText) x.textContent = C.screensText;
+    el.innerHTML = shotList.map(function (s, i) {
+      var size = s.size === "small" || s.size === "large" ? s.size : "medium";
+      var framed = s.frame !== false;
+      var dims = s.w && s.h ? ' width="' + Number(s.w) + '" height="' + Number(s.h) + '"' : "";
+      var name = s.title || "ภาพหน้าจอ";
+      return '<figure class="shot shot--' + size + ' reveal" style="--i:' + (i % 4) + '">' +
+        '<button class="shot__btn" type="button" data-shot="' + i + '" aria-label="ขยายภาพ: ' + esc(name) + '">' +
+        (framed ? '<span class="shot__bar" aria-hidden="true"><i></i><i></i><i></i></span>' : "") +
+        '<img src="' + esc(s.image) + '" alt="' + esc(s.alt || name) + '"' + dims + ' loading="lazy" decoding="async"></button>' +
+        (s.title || s.caption ? "<figcaption>" + (s.title ? "<b>" + esc(s.title) + "</b>" : "") + (s.caption ? "<span>" + esc(s.caption) + "</span>" : "") + "</figcaption>" : "") +
+        "</figure>";
+    }).join("");
+    sec.hidden = false;
+    $$("[data-screens-nav]").forEach(function (a) { a.hidden = false; });
+    initLightbox();
+  }
+
+  function initLightbox() {
+    var dlg = $("#lightbox");
+    if (!dlg) return;
+    var img = $(".lightbox__img", dlg), cap = $(".lightbox__cap", dlg);
+    var idx = 0, opener = null;
+    function show(i) {
+      idx = (i + shotList.length) % shotList.length;
+      var s = shotList[idx];
+      img.src = s.image;
+      img.alt = s.alt || s.title || "ภาพหน้าจอโปรแกรม AESTIVA";
+      cap.textContent = [s.title, s.caption].filter(Boolean).join(" — ") + (shotList.length > 1 ? "  (" + (idx + 1) + "/" + shotList.length + ")" : "");
+    }
+    $$(".shot__btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        opener = btn;
+        var i = parseInt(btn.getAttribute("data-shot"), 10) || 0;
+        if (typeof dlg.showModal !== "function") { window.open(shotList[i].image, "_blank", "noopener"); return; }
+        show(i);
+        dlg.showModal();
+      });
+    });
+    var multi = shotList.length > 1;
+    $$("[data-lb='prev'],[data-lb='next']", dlg).forEach(function (b) { b.hidden = !multi; });
+    dlg.addEventListener("click", function (e) {
+      var b = e.target.closest && e.target.closest("[data-lb]");
+      if (b) {
+        var a = b.getAttribute("data-lb");
+        if (a === "close") dlg.close();
+        else if (a === "prev") show(idx - 1);
+        else if (a === "next") show(idx + 1);
+      } else if (e.target === dlg || e.target.classList.contains("lightbox__box")) {
+        dlg.close();
+      }
+    });
+    dlg.addEventListener("keydown", function (e) {
+      if (!multi) return;
+      if (e.key === "ArrowLeft") { show(idx - 1); e.preventDefault(); }
+      if (e.key === "ArrowRight") { show(idx + 1); e.preventDefault(); }
+    });
+    dlg.addEventListener("close", function () { if (opener) opener.focus(); });
   }
 
   /* ---------- แท็บตัวอย่างระบบ ---------- */
@@ -334,6 +403,7 @@
     safely("updates", renderUpdates);
     safely("clinics", renderClinics);
     safely("faq", renderFaq);
+    safely("screens", renderScreens);
   }
   safely("tabs", initTabs);
   safely("menu", initMenu);

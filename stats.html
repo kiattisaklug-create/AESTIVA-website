@@ -101,8 +101,8 @@ details.help li{margin:6px 0}
   var app = document.getElementById("app");
   var days = 30, data = null;
 
-  var SECTION_ORDER = ["home","why","features","philosophy","modules","pricing","updates","clinics","faq","contact"];
-  var SECTION_TH = { home:"หน้าแรก (ส่วนบนสุด)", why:"ทำไมต้อง AESTIVA", features:"ฟีเจอร์ / ตัวอย่างระบบ", philosophy:"แนวคิดของ AESTIVA", modules:"โมดูลที่ขยายได้",
+  var SECTION_ORDER = ["home","why","features","screens","philosophy","modules","pricing","updates","clinics","faq","contact"];
+  var SECTION_TH = { home:"หน้าแรก (ส่วนบนสุด)", why:"ทำไมต้อง AESTIVA", features:"ฟีเจอร์ / ตัวอย่างระบบ", screens:"ภาพหน้าจอโปรแกรม", philosophy:"แนวคิดของ AESTIVA", modules:"โมดูลที่ขยายได้",
     pricing:"ราคา", updates:"อัปเดตและเวอร์ชัน", clinics:"คลินิกที่ใช้", faq:"คำถามที่พบบ่อย", contact:"ติดต่อ / ขอ Demo", nav:"เมนูบนสุด", footer:"ท้ายเว็บ", fab:"ปุ่มลอย LINE" };
   var KIND_TH = { line:"LINE", tab:"แท็บ", faq:"คำถาม", link:"ลิงก์", tiktok:"TikTok", instagram:"Instagram", phone:"โทร", email:"อีเมล", menu:"เมนู", button:"ปุ่ม" };
   var SRC_TH = { direct:"พิมพ์ลิงก์ตรง / ไม่ทราบที่มา", tiktok:"TikTok", instagram:"Instagram", line:"LINE", facebook:"Facebook", google:"Google", bing:"Bing", youtube:"YouTube", x:"X (Twitter)" };
@@ -159,6 +159,7 @@ details.help li{margin:6px 0}
 
   function render(){
     var d=data, t=d.totals, views=t.views;
+    var order=SECTION_ORDER.filter(function(id){ return id!=="screens" || d.sections.some(function(x){return x.s==="screens"&&x.count>0;}); });
     var html='';
     html+='<h1>ภาพรวมเว็บไซต์</h1><p class="sub">'+esc(thDate(d.from))+' – '+esc(thDate(d.to))+' ('+d.days+' วันล่าสุด) · เวลาประเทศไทย</p>';
     if(!d.persistent) html+='<div class="banner warn">⚠️ ยังไม่ได้ต่อ Volume บน Railway — ข้อมูลสถิติจะ<b>หายทุกครั้งที่ Deploy ใหม่</b> (ดูคู่มือ START-HERE ข้อ 7 ขั้น B)</div>';
@@ -174,7 +175,7 @@ details.help li{margin:6px 0}
     var tips=[];
     if(d.clicks.length){ var c=d.clicks[0]; tips.push('ปุ่มที่ถูกกดมากที่สุด: <b>'+esc(c.l)+'</b> ('+fmt(c.count)+' ครั้ง'+(c.s&&SECTION_TH[c.s]?' · ตำแหน่ง: '+esc(SECTION_TH[c.s]):'')+')'); }
     if(views>=20){
-      var reach=SECTION_ORDER.map(function(id){ var f=d.sections.filter(function(s){return s.s===id;})[0]; return {id:id,p:pct(f?Math.min(f.count,views):0,views)}; });
+      var reach=order.map(function(id){ var f=d.sections.filter(function(s){return s.s===id;})[0]; return {id:id,p:pct(f?Math.min(f.count,views):0,views)}; });
       var worst=null;
       for(var i=1;i<reach.length;i++){ var drop=reach[i-1].p-reach[i].p; if(!worst||drop>worst.drop) worst={drop:drop,from:reach[i-1],to:reach[i]}; }
       if(worst&&worst.drop>=10) tips.push('คนเลื่อนออกจากหน้าเว็บมากที่สุดช่วง <b>'+esc(SECTION_TH[worst.from.id])+' → '+esc(SECTION_TH[worst.to.id])+'</b> (จาก '+worst.from.p+'% เหลือ '+worst.to.p+'%) — ลองดูว่าส่วนนั้นยาวหรือน่าเบื่อไปหรือไม่');
@@ -186,7 +187,7 @@ details.help li{margin:6px 0}
       '<div class="legend"><span><i style="background:#F1DC8B"></i>ครั้งที่เข้าชม</span><span><i style="background:#B8860B"></i>ผู้เข้าชม</span></div></div></section>';
 
     // ส่วนที่เลื่อนไปถึง + ปุ่มที่ถูกกด
-    var reachRows=SECTION_ORDER.map(function(id){ var f=d.sections.filter(function(s){return s.s===id;})[0]; var n=f?Math.min(f.count,views):0; return barRow(SECTION_TH[id],'',n,views, views?pct(n,views)+'%':'0%'); }).join('');
+    var reachRows=order.map(function(id){ var f=d.sections.filter(function(s){return s.s===id;})[0]; var n=f?Math.min(f.count,views):0; return barRow(SECTION_TH[id],'',n,views, views?pct(n,views)+'%':'0%'); }).join('');
     var maxClick=d.clicks.length?d.clicks[0].count:0;
     var clickRows=d.clicks.slice(0,15).map(function(c){
       var sub=(KIND_TH[c.k]||c.k)+(c.s&&SECTION_TH[c.s]?' · '+SECTION_TH[c.s]:'');
