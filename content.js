@@ -154,14 +154,14 @@ window.AESTIVA_CONTENT = {
       "id": "smuc3f7gx7ur",
       "image": "assets/shots/shot-20260922-100702-adf2-dashboard.webp",
       "title": "DASHBOARD",
-      "caption": "",
+      "caption": "หน้าจอหลักของitระบบ",
       "alt": "",
-      "size": "medium",
+      "size": "large",
       "frame": true,
       "hidden": false,
       "w": 1476,
       "h": 613
     }
   ],
-  "buildId": "20260922-100919-ba56"
+  "buildId": "20260922-133542-4837"
 };
