@@ -149,6 +149,19 @@ window.AESTIVA_CONTENT = {
       "a": "ทักมาทาง LINE OA แล้วบอกว่าสนใจดู Demo ทีม AESTIVA จะพูดคุยและนัดดูระบบจริงร่วมกับคุณ"
     }
   ],
-  "screenshots": [],
-  "buildId": "20260921-141017-4e67"
+  "screenshots": [
+    {
+      "id": "smuc3f7gx7ur",
+      "image": "assets/shots/shot-20260922-100702-adf2-dashboard.webp",
+      "title": "DASHBOARD",
+      "caption": "",
+      "alt": "",
+      "size": "medium",
+      "frame": true,
+      "hidden": false,
+      "w": 1476,
+      "h": 613
+    }
+  ],
+  "buildId": "20260922-100919-ba56"
 };
