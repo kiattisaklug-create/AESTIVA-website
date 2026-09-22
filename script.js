@@ -227,6 +227,77 @@
     dlg.addEventListener("close", function () { if (opener) opener.focus(); });
   }
 
+  /* ---------- 8) วิดีโอสาธิตการใช้งาน (ไม่มีคลิป/ไม่ Active = ไม่แสดงช่องนั้น) ---------- */
+  function renderVideos() {
+    var sec = $("#videos"), el = $("[data-render='videos']");
+    if (!sec || !el) return;
+    var list = arr(C.demoVideos).filter(function (v) { return v && v.src && v.active !== false; });
+    if (!list.length) return;
+    var t = $("[data-render='videos-title']"), x = $("[data-render='videos-text']");
+    if (t && C.demoVideosTitle) t.textContent = C.demoVideosTitle;
+    if (x && C.demoVideosText) x.textContent = C.demoVideosText;
+    el.innerHTML = list.map(function (v, i) {
+      var name = v.title || "วิดีโอสาธิต";
+      var poster = v.poster ? ' poster="' + esc(v.poster) + '"' : "";
+      return '<div class="video-card reveal" style="--i:' + (i % 3) + '">' +
+        '<div class="video-card__frame">' +
+        '<video class="video-card__el" data-src="' + esc(v.src) + '" muted loop playsinline preload="none"' + poster + ' aria-label="' + esc(name) + '"></video>' +
+        (v.module ? '<span class="video-card__badge">' + esc(v.module) + "</span>" : "") +
+        '<button class="video-card__mute" type="button" data-mute-btn aria-label="เปิดเสียง" aria-pressed="false"><svg><use href="#i-mute"/></svg></button>' +
+        "</div>" +
+        (v.title || v.caption ? '<div class="video-card__body">' + (v.title ? "<b>" + esc(v.title) + "</b>" : "") + (v.caption ? "<p>" + esc(v.caption) + "</p>" : "") + "</div>" : "") +
+        "</div>";
+    }).join("");
+    sec.hidden = false;
+    $$("[data-videos-nav]").forEach(function (a) { a.hidden = false; });
+    initVideoCards();
+  }
+
+  function initVideoCards() {
+    var cards = $$(".video-card__frame");
+    if (!cards.length) return;
+
+    cards.forEach(function (card) {
+      var vid = $(".video-card__el", card), btn = $("[data-mute-btn]", card);
+      if (btn) {
+        btn.addEventListener("click", function () {
+          vid.muted = !vid.muted;
+          btn.setAttribute("aria-pressed", String(!vid.muted));
+          btn.setAttribute("aria-label", vid.muted ? "เปิดเสียง" : "ปิดเสียง");
+          btn.innerHTML = '<svg><use href="#i-' + (vid.muted ? "mute" : "volume") + '"/></svg>';
+        });
+      }
+    });
+
+    if (!("IntersectionObserver" in window) || reduce) {
+      // ไม่รองรับ หรือผู้ใช้ตั้งค่าลดการเคลื่อนไหว: โหลดวิดีโอไว้เฉยๆ ไม่เล่นอัตโนมัติ (กดปุ่มลำโพง/คลิกที่วิดีโอเพื่อดูได้)
+      cards.forEach(function (card) {
+        var vid = $(".video-card__el", card);
+        if (vid.dataset.src) { vid.src = vid.dataset.src; vid.controls = true; vid.removeAttribute("data-src"); }
+      });
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var vid = $(".video-card__el", en.target);
+        if (!vid) return;
+        if (en.isIntersecting) {
+          if (vid.dataset.src) {
+            vid.src = vid.dataset.src;
+            vid.removeAttribute("data-src");
+            vid.load(); // จำเป็นเมื่อกำหนด src ด้วยสคริปต์ขณะ preload="none" ไม่งั้นบางเบราว์เซอร์จะยกเลิกการโหลดเอง
+          }
+          var p = vid.play();
+          if (p && p.catch) p.catch(function () {}); // เบราว์เซอร์บางตัวบล็อกการเล่นอัตโนมัติ ไม่ถือเป็นข้อผิดพลาด
+        } else {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.35, rootMargin: "80px 0px" });
+    cards.forEach(function (card) { io.observe(card); });
+  }
+
   /* ---------- แท็บตัวอย่างระบบ ---------- */
   function countUp(el) {
     var target = parseInt(el.getAttribute("data-count"), 10);
@@ -404,6 +475,7 @@
     safely("clinics", renderClinics);
     safely("faq", renderFaq);
     safely("screens", renderScreens);
+    safely("videos", renderVideos);
   }
   safely("tabs", initTabs);
   safely("menu", initMenu);

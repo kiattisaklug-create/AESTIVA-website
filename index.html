@@ -6,7 +6,7 @@
   <title>AESTIVA | ระบบจัดการคลินิกศัลยกรรมและความงาม</title>
   <meta name="description" content="AESTIVA ระบบจัดการคลินิกศัลยกรรมและความงาม ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง — นัดหมาย OPD จ่ายยา เอกสาร LINE OA รายรับ และ Audit Log ในระบบเดียว">
   <meta name="theme-color" content="#FAF9F6">
-  <meta name="aestiva-site-version" content="4">
+  <meta name="aestiva-site-version" content="5">
 
   <!-- ✏️ ตอนแชร์ลิงก์ลง LINE / Facebook: ถ้าเปลี่ยนโดเมนใหม่ ให้แก้ที่อยู่ 2 บรรทัดนี้ (og:url และ og:image) -->
   <meta property="og:type" content="website">
@@ -52,6 +52,9 @@
     <symbol id="i-tiktok" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12.5a4 4 0 1 0 4 4V3.5a5 5 0 0 0 5 5"/></g></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></g></symbol>
     <symbol id="i-phone" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M12 18h.01"/></g></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 9a4 4 0 0 1 0 6"/><path d="M19 6.5a8 8 0 0 1 0 11"/></g></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="m16 9 5 6m0-6-5 6"/></g></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="14" height="13" rx="2.5"/><path d="m16.5 10 5-3v10l-5-3"/></g></symbol>
   </defs>
 </svg>
 
@@ -66,6 +69,7 @@
     <nav class="nav__links" id="nav-links" aria-label="เมนูหลัก">
       <a href="#features">ฟีเจอร์</a>
       <a href="#screens" data-screens-nav hidden>ภาพหน้าจอ</a>
+      <a href="#videos" data-videos-nav hidden>วิดีโอสาธิต</a>
       <a href="#modules">โมดูล</a>
       <a href="#pricing">ราคา</a>
       <a href="#updates">อัปเดต</a>
@@ -330,6 +334,18 @@
     </div>
   </section>
 
+  <!-- ============================ วิดีโอสาธิตการใช้งาน (ซ่อนเองถ้ายังไม่มีคลิป — จัดการผ่านโปรแกรม Admin) ============================ -->
+  <section class="section videos" id="videos" hidden>
+    <div class="wrap">
+      <div class="sec-head sec-head--center">
+        <i class="orn" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
+        <h2 data-render="videos-title">ดูวิดีโอสาธิตการใช้งานจริง</h2>
+        <p data-render="videos-text">คลิปสั้นๆ แสดงการทำงานจริงของแต่ละโมดูล (ไม่มีเสียง กดปุ่มลำโพงเพื่อเปิดเสียง)</p>
+      </div>
+      <div class="video-grid" data-render="videos"></div>
+    </div>
+  </section>
+
   <!-- ============================ แนวคิด (พื้นหลังเข้ม) ============================ -->
   <section class="section section--night philosophy" id="philosophy">
     <div class="wrap philosophy__grid">
@@ -449,6 +465,7 @@
     <nav class="footer__nav" aria-label="ลิงก์ท้ายเว็บ">
       <a href="#features">ฟีเจอร์</a>
       <a href="#screens" data-screens-nav hidden>ภาพหน้าจอ</a>
+      <a href="#videos" data-videos-nav hidden>วิดีโอสาธิต</a>
       <a href="#modules">โมดูล</a>
       <a href="#pricing">ราคา</a>
       <a href="#updates">อัปเดต</a>

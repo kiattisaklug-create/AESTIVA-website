@@ -30,8 +30,11 @@ const MIME = {
   ".webp": "image/webp",
   ".gif": "image/gif",
   ".ico": "image/x-icon",
-  ".woff2": "font/woff2"
+  ".woff2": "font/woff2",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm"
 };
+const STREAM_EXT = new Set([".mp4", ".webm"]); // ไฟล์วิดีโอ: ส่งแบบแบ่งช่วง (Range) เพื่อให้ Safari/iOS เล่นได้และประหยัด RAM
 
 // ไฟล์ที่อนุญาตให้คนทั่วไปเปิดดูได้
 const PUBLIC_FILES = new Set(["/index.html", "/styles.css", "/script.js", "/content.js", "/pulse.js", "/robots.txt", "/sitemap.xml"]);
@@ -113,6 +116,27 @@ const server = http.createServer((req, res) => {
     if (req.headers["if-none-match"] === etag) {
       res.writeHead(304, headers);
       return res.end();
+    }
+
+    if (STREAM_EXT.has(ext)) {
+      // วิดีโอ: สตรีมจากดิสก์โดยตรง (ไม่โหลดทั้งไฟล์เข้า RAM) และรองรับ Range request
+      headers["Accept-Ranges"] = "bytes";
+      const range = req.headers.range;
+      if (range) {
+        const m = /^bytes=(\d*)-(\d*)$/.exec(range);
+        const start = m && m[1] !== "" ? parseInt(m[1], 10) : 0;
+        const end = m && m[2] !== "" ? parseInt(m[2], 10) : stat.size - 1;
+        if (!m || isNaN(start) || isNaN(end) || start > end || start < 0 || end >= stat.size) {
+          res.writeHead(416, { "Content-Range": `bytes */${stat.size}`, ...SECURITY_HEADERS });
+          return res.end();
+        }
+        res.writeHead(206, { ...headers, "Content-Range": `bytes ${start}-${end}/${stat.size}`, "Content-Length": end - start + 1 });
+        if (req.method === "HEAD") return res.end();
+        return fs.createReadStream(filePath, { start, end }).pipe(res);
+      }
+      res.writeHead(200, { ...headers, "Content-Length": stat.size });
+      if (req.method === "HEAD") return res.end();
+      return fs.createReadStream(filePath).pipe(res);
     }
 
     fs.readFile(filePath, (readErr, data) => {
