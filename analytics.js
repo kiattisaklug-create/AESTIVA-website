@@ -152,6 +152,10 @@ function readBody(req, limit, cb) {
 }
 
 /* ---------- รับข้อมูลจากหน้าเว็บ: POST /api/pulse ---------- */
+/* ---------- จุดต่อขยาย: ให้โมดูลอื่น (เช่น line.js) รับรู้เมื่อมีคนเข้าเว็บจริง ---------- */
+let viewHook = null;
+function setViewHook(fn) { viewHook = typeof fn === "function" ? fn : null; }
+
 function handlePulse(req, res) {
   if (req.method !== "POST") { res.writeHead(405, { Allow: "POST" }); return res.end(); }
   const ua = String(req.headers["user-agent"] || "").slice(0, 300);
@@ -190,6 +194,7 @@ function handlePulse(req, res) {
     appendEvent(rec);
     res.writeHead(204, { "Cache-Control": "no-store" });
     res.end();
+    if (rec.t === "v" && viewHook) { try { viewHook(); } catch (e) { console.error("[stats] viewHook ผิดพลาด:", e.message); } }
   });
 }
 
@@ -353,4 +358,4 @@ function handle(req, res) {
   return false;
 }
 
-module.exports = { handle };
+module.exports = { handle, aggregate, authorized, sendText, setViewHook };

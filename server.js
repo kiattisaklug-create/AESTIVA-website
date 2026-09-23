@@ -12,6 +12,8 @@ const fs = require("fs");
 const path = require("path");
 const zlib = require("zlib");
 const analytics = require("./analytics"); // ระบบนับสถิติ (ดูไฟล์ analytics.js)
+const lineNotify = require("./line"); // ระบบแจ้งเตือนยอดเข้าชมผ่าน LINE (ดูไฟล์ line.js)
+analytics.setViewHook(lineNotify.notifyVisit); // ให้ analytics.js เรียก line.js ทุกครั้งที่มีคนเข้าเว็บจริง
 
 const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
@@ -82,6 +84,7 @@ const gzipCache = new Map();
 const server = http.createServer((req, res) => {
   // เส้นทางของระบบสถิติ: /api/pulse (รับข้อมูล), /stats (หน้าดูสถิติ), /api/stats
   if (analytics.handle(req, res)) return;
+  if (lineNotify.handle(req, res)) return;
 
   if (req.method !== "GET" && req.method !== "HEAD") {
     res.writeHead(405, { Allow: "GET, HEAD" });
@@ -164,6 +167,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, "0.0.0.0", () => {
   console.log(`AESTIVA website listening on port ${PORT}`);
+  lineNotify.startScheduler(); // ตัวตรวจสำรอง เผื่อมีรายการค้างจากช่วงยังไม่ถึงเวลาส่ง (ดูไฟล์ line.js)
 });
 
 // ให้ Railway ปิดเซิร์ฟเวอร์อย่างนุ่มนวลเมื่อมีการ deploy ใหม่

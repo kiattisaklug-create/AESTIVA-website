@@ -89,6 +89,19 @@ details.help li{margin:6px 0}
 @media(prefers-reduced-motion:reduce){.livedot{animation:none}}
 .todaycard__time{color:var(--ink-mute);font-size:.8rem;margin-left:auto}
 .todaycard__cmp{color:var(--ink-mute);font-size:.86rem;margin:0}
+.linecard{display:flex;flex-direction:column;gap:10px}
+.linecard__head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.linecard__head b{font-family:var(--serif);font-weight:600;font-size:1.15rem}
+.linedot{width:9px;height:9px;border-radius:50%;flex:none}
+.linedot.on{background:#2E7D4F}
+.linedot.off{background:#B3261E}
+.linedot.mid{background:#B8860B}
+.linecard__row{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;font-size:.94rem}
+.linecode{display:inline-flex;align-items:center;gap:.6rem;background:var(--pearl);border:1px solid var(--line);border-radius:10px;padding:.55rem .9rem;font-family:Consolas,monospace;font-size:1.05rem;font-weight:600;color:var(--gold-ink);letter-spacing:.02em}
+.linecard .ghost{padding:6px 14px;min-height:34px;font-size:.85rem}
+.linecard__steps{margin:.2rem 0 0;padding-left:1.2rem;color:var(--ink-soft);font-size:.92rem;line-height:1.8}
+.linecard__log{margin-top:.4rem;font-size:.82rem;color:var(--ink-mute);max-height:5.5rem;overflow:auto;background:var(--pearl);border-radius:8px;padding:.5rem .7rem}
+.linecard__log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
@@ -103,6 +116,8 @@ details.help li{margin:6px 0}
 </div></header>
 
 <div class="wrap todaywrap"><div class="card todaycard" id="todaycard"><div class="load">กำลังโหลดข้อมูลวันนี้…</div></div></div>
+
+<div class="wrap todaywrap"><div class="card linecard" id="linecard"><div class="load">กำลังโหลดสถานะ LINE…</div></div></div>
 
 <main class="wrap" id="app"><div class="load">กำลังโหลดข้อมูล…</div></main>
 
@@ -210,6 +225,75 @@ details.help li{margin:6px 0}
   document.addEventListener("visibilitychange", function(){
     if(document.hidden){ stopTodayPolling(); } else { loadToday(); startTodayPolling(); }
   });
+
+  /* ---------- แจ้งเตือนผ่าน LINE ---------- */
+  function fmtLogLine(l){
+    var m = /^\[([^\]]+)\]\s*(.*)$/.exec(l);
+    if(!m) return l;
+    var t = new Date(m[1]);
+    if(isNaN(t.getTime())) return l;
+    return t.toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'})+' — '+m[2];
+  }
+  var lineBox = document.getElementById("linecard");
+  var lineStatus = null, lineBusy = false;
+
+  function renderLine(){
+    if(!lineBox) return;
+    if(!lineStatus){ lineBox.innerHTML='<div class="load">กำลังโหลดสถานะ LINE…</div>'; return; }
+    var s = lineStatus, html = '';
+    if(!s.configured){
+      html += '<div class="linecard__head"><span class="linedot off"></span><b>แจ้งเตือนผ่าน LINE</b></div>';
+      html += '<p class="muted">ยังไม่ได้ตั้งค่า — ไปที่ Railway → บริการเว็บ → แท็บ Variables เพิ่มตัวแปร <code>LINE_CHANNEL_ACCESS_TOKEN</code> และ <code>LINE_CHANNEL_SECRET</code> (ดูขั้นตอนสร้างในคู่มือ START-HERE หัวข้อ "แจ้งเตือนผ่าน LINE")</p>';
+    } else if(!s.recipientSet){
+      html += '<div class="linecard__head"><span class="linedot mid"></span><b>แจ้งเตือนผ่าน LINE</b></div>';
+      html += '<p class="muted">ตั้งค่าไว้แล้ว เหลืออีกขั้นเดียว: เปิดแอป LINE แล้วส่งข้อความนี้ไปที่ LINE OA ของคุณ 1 ครั้ง</p>';
+      html += '<div class="linecard__row"><span class="linecode">'+esc(s.setupCode)+'</span><button class="ghost" type="button" data-copy-code>คัดลอก</button></div>';
+      html += '<p class="muted" style="margin-top:.3rem">ส่งแล้วรอ 5-10 วินาที แล้วกด "รีเฟรช" ด้านบนของหน้านี้อีกครั้ง</p>';
+    } else {
+      var modeText = s.gapHours>0 ? ('แจ้งเตือนทุกครั้งที่มีคนเข้าชมเว็บ (รวมเป็นข้อความเดียวถ้าถี่กว่า '+s.gapHours+' ชม.)') : 'แจ้งเตือนทันทีทุกครั้งที่มีคนเข้าชมเว็บ';
+      var lastText = s.lastNotifiedAt ? ('ล่าสุด '+esc(new Date(s.lastNotifiedAt).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'}))) : 'ยังไม่เคยแจ้งเตือน (รอคนเข้าเว็บคนแรก)';
+      html += '<div class="linecard__head"><span class="linedot on"></span><b>แจ้งเตือนผ่าน LINE</b><span class="todaycard__time">เชื่อมต่อแล้ว ('+esc(s.recipientMasked||'')+')</span></div>';
+      html += '<p class="muted">'+modeText+' · '+lastText+'</p>';
+      if(s.pendingVisits>0) html += '<p class="muted">มี '+s.pendingVisits+' ครั้งที่เข้าเว็บกำลังรอส่ง (ยังไม่ถึงช่วงเวลาที่ตั้งไว้)</p>';
+      html += '<div class="linecard__row"><button class="ghost" type="button" id="line-test-btn">'+(lineBusy?'กำลังส่ง…':'ส่งทดสอบตอนนี้')+'</button><span class="muted" id="line-test-result"></span></div>';
+    }
+    if(s.log && s.log.length){
+      html += '<div class="linecard__log">'+s.log.slice(0,5).map(function(l){return '<div>'+esc(fmtLogLine(l))+'</div>';}).join('')+'</div>';
+    }
+    lineBox.innerHTML = html;
+    var cp = lineBox.querySelector('[data-copy-code]');
+    if(cp) cp.addEventListener('click', function(){
+      var v = lineStatus.setupCode;
+      var done = function(){ cp.textContent='คัดลอกแล้ว'; setTimeout(function(){cp.textContent='คัดลอก';},1500); };
+      if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(done,function(){window.prompt('คัดลอกรหัสนี้',v);});
+      else window.prompt('คัดลอกรหัสนี้',v);
+    });
+    var tb = document.getElementById('line-test-btn');
+    if(tb) tb.addEventListener('click', function(){
+      if(lineBusy) return;
+      lineBusy = true; renderLine();
+      fetch('/api/line-test',{method:'POST',credentials:'same-origin',cache:'no-store'}).then(function(r){
+        if(r.status===401){ location.reload(); throw new Error('auth'); }
+        return r.json();
+      }).then(function(j){
+        lineBusy = false; renderLine();
+        var el = document.getElementById('line-test-result');
+        if(el) el.textContent = j.ok ? '✓ ส่งสำเร็จ เช็คแอป LINE ได้เลย' : ('ส่งไม่สำเร็จ: '+j.error);
+        setTimeout(loadLineStatus, 1800); // รอสักครู่ให้เห็นผลก่อน แล้วค่อยรีเฟรชสถานะ/ประวัติ
+      }).catch(function(e){ lineBusy=false; if(e&&e.message==='auth') return; renderLine(); });
+    });
+  }
+
+  function loadLineStatus(){
+    return fetch('/api/line-status',{credentials:'same-origin',cache:'no-store'}).then(function(r){
+      if(r.status===401){ location.reload(); throw new Error('auth'); }
+      if(!r.ok) throw new Error('http '+r.status);
+      return r.json();
+    }).then(function(j){ lineStatus=j; renderLine(); }).catch(function(e){
+      if(e&&e.message==='auth') return;
+      if(!lineStatus && lineBox) lineBox.innerHTML='<div class="load">โหลดสถานะ LINE ไม่สำเร็จ</div>';
+    });
+  }
 
   function render(){
     var d=data, t=d.totals, views=t.views;
@@ -326,10 +410,11 @@ details.help li{margin:6px 0}
       load();
     });
   });
-  document.getElementById("refresh").addEventListener("click", function(){ load(); loadToday(); });
+  document.getElementById("refresh").addEventListener("click", function(){ load(); loadToday(); loadLineStatus(); });
   load();
   loadToday();
   startTodayPolling();
+  loadLineStatus();
 })();
 </script>
 </body>
