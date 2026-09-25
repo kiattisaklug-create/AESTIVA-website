@@ -6,14 +6,14 @@
   <title>AESTIVA | ระบบจัดการคลินิกศัลยกรรมและความงาม</title>
   <meta name="description" content="AESTIVA ระบบจัดการคลินิกศัลยกรรมและความงาม ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง — นัดหมาย OPD จ่ายยา เอกสาร LINE OA รายรับ และ Audit Log ในระบบเดียว">
   <meta name="theme-color" content="#FAF9F6">
-  <meta name="aestiva-site-version" content="7">
+  <meta name="aestiva-site-version" content="8">
 
   <!-- ✏️ ตอนแชร์ลิงก์ลง LINE / Facebook: ถ้าเปลี่ยนโดเมนใหม่ ให้แก้ที่อยู่ 2 บรรทัดนี้ (og:url และ og:image) -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="th_TH">
   <meta property="og:site_name" content="AESTIVA">
   <meta property="og:title" content="AESTIVA — ระบบจัดการคลินิกศัลยกรรมและความงาม">
-  <meta property="og:description" content="ระบบหลังบ้านที่เข้าใจคลินิก ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง">
+  <meta property="og:description" content="Clinic Management, Refined. ระบบหลังบ้านที่เข้าใจคลินิกของคุณ ออกแบบโดยคุณหมอ เพื่อใช้ในคลินิกจริง">
   <meta property="og:url" content="https://aestiva-website-production.up.railway.app/">
   <meta property="og:image" content="https://aestiva-website-production.up.railway.app/assets/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -73,7 +73,7 @@
       <a href="#modules">โมดูล</a>
       <a href="#pricing">ราคา</a>
       <a href="#updates">อัปเดต</a>
-      <a href="#clinics">คลินิกที่ใช้</a>
+      <a href="#clinics" data-clinics-nav hidden>คลินิกที่ใช้</a>
       <a href="#contact">ติดต่อ</a>
       <a class="btn btn--gold btn--sm nav__cta" data-line-msg="สนใจขอ Demo ระบบ AESTIVA" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener">ขอ Demo</a>
     </nav>
@@ -91,12 +91,13 @@
     <div class="wrap hero__grid">
       <div class="hero__copy">
         <h1 class="hero-in" style="--i:0">
-          <span>ระบบหลังบ้าน</span>
-          <span>ที่เข้าใจคลินิก</span>
+          <span>Clinic Management,</span>
+          <span>Refined.</span>
         </h1>
+        <p class="hero__thai hero-in" style="--i:1">ระบบหลังบ้านที่เข้าใจคลินิกของคุณ</p>
         <p class="hero__lead hero-in" style="--i:1">
-          AESTIVA คือระบบจัดการคลินิกศัลยกรรมและความงาม ที่คิดจากการใช้งานจริงในคลินิก
-          ไม่ใช่แค่โปรแกรมที่สวย แต่ต้องจัดการงานได้จริง ตรวจสอบได้ และยืดหยุ่นกับวิธีทำงานของแต่ละคลินิก
+          AESTIVA คือระบบจัดการคลินิกศัลยกรรมและความงาม ที่ใช้งานได้จริง ตรวจสอบได้
+          และยืดหยุ่นตามวิธีทำงานของคลินิกคุณ
         </p>
         <div class="hero__cta hero-in" style="--i:2">
           <a class="btn btn--gold" data-line-msg="สนใจขอ Demo ระบบ AESTIVA" href="https://line.me/R/ti/p/@392qlspn" target="_blank" rel="noopener">ขอ Demo ผ่าน LINE</a>
@@ -407,7 +408,7 @@
   </section>
 
   <!-- ============================ คลินิกที่ใช้ ============================ -->
-  <section class="section section--pearl" id="clinics">
+  <section class="section section--pearl" id="clinics" hidden>
     <div class="wrap">
       <div class="sec-head sec-head--center">
         <i class="orn" aria-hidden="true"><svg><use href="#i-star"/></svg></i>
@@ -469,14 +470,14 @@
       <a href="#modules">โมดูล</a>
       <a href="#pricing">ราคา</a>
       <a href="#updates">อัปเดต</a>
-      <a href="#clinics">คลินิกที่ใช้</a>
+      <a href="#clinics" data-clinics-nav hidden>คลินิกที่ใช้</a>
       <a href="#faq">คำถามที่พบบ่อย</a>
     </nav>
     <ul class="footer__contact" data-render="footer-contact"></ul>
   </div>
   <div class="wrap footer__bottom">
     <p>© <span id="year">2026</span> AESTIVA. All rights reserved.</p>
-    <p>Built for real clinic operations.<span class="footer__note"> เว็บนี้เก็บสถิติการเข้าชมแบบไม่ระบุตัวตน ไม่ใช้คุกกี้</span></p>
+    <p>Built for real clinic operations.</p>
   </div>
 </footer>
 

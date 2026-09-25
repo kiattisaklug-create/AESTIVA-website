@@ -131,22 +131,18 @@
 
   /* ---------- 5) คลินิกที่ใช้ ---------- */
   function renderClinics() {
-    var el = $("[data-render='clinics']");
-    if (!el) return;
-    var list = arr(C.clinics);
-    if (!list.length) {
-      el.innerHTML = '<div class="clinics-empty reveal"><i class="orn" aria-hidden="true">' +
-        '<svg><use href="#i-star"/></svg></i>' +
-        "<h3>กำลังเปิดตัวร่วมกับคลินิกพันธมิตรกลุ่มแรก</h3>" +
-        "<p>สนใจเป็นหนึ่งในคลินิกแรก ๆ ที่ใช้ AESTIVA? พูดคุยกับทีมงานได้ทาง LINE OA</p>" +
-        '<a class="btn btn--gold" data-line-msg="สนใจเป็นคลินิกพันธมิตรของ AESTIVA" href="' + esc(lineId ? lineMsg("สนใจเป็นคลินิกพันธมิตรของ AESTIVA") : "#contact") + '" target="_blank" rel="noopener">คุยกับทีม AESTIVA</a></div>';
-      return;
-    }
+    var sec = $("#clinics"), el = $("[data-render='clinics']");
+    if (!sec || !el) return;
+    // ซ่อนทั้งส่วนไว้จนกว่าเจ้าของเว็บจะเปิดใช้งาน (clinicsEnabled) และมีอย่างน้อย 1 คลินิกที่ใส่โลโก้แล้ว
+    var list = arr(C.clinics).filter(function (c) { return c && c.logo; });
+    if (!C.clinicsEnabled || !list.length) return;
     el.innerHTML = '<div class="clinics">' + list.map(function (c, i) {
       return '<div class="clinic reveal" style="--i:' + i + '">' +
-        (c.logo ? '<img src="' + esc(c.logo) + '" alt="โลโก้ ' + esc(c.name) + '" loading="lazy">' : "") +
+        '<img src="' + esc(c.logo) + '" alt="โลโก้ ' + esc(c.name) + '" loading="lazy">' +
         "<div><b>" + esc(c.name) + "</b>" + (c.note ? "<small>" + esc(c.note) + "</small>" : "") + "</div></div>";
     }).join("") + "</div>";
+    sec.hidden = false;
+    $$("[data-clinics-nav]").forEach(function (a) { a.hidden = false; });
   }
 
   /* ---------- 6) คำถามที่พบบ่อย ---------- */
