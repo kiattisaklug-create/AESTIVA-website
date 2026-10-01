@@ -6,11 +6,11 @@
    ===================================================================== */
 window.AESTIVA_CONTENT = {
   "contact": {
-    "lineId": "@392qlspn",
+    "lineId": "@aestiva",
     "tiktok": "AESTIVA56",
     "instagram": "AESTIVA56",
     "phone": "",
-    "email": "",
+    "email": "aestiva56@gmail.com",
     "lineQrImage": "assets/line-qr.svg"
   },
   "plans": [
@@ -154,7 +154,7 @@ window.AESTIVA_CONTENT = {
       "id": "smuc3f7gx7ur",
       "image": "assets/shots/shot-20260922-100702-adf2-dashboard.webp",
       "title": "DASHBOARD",
-      "caption": "หน้าจอหลักของitระบบ",
+      "caption": "หน้าจอหลักของระบบ",
       "alt": "",
       "size": "large",
       "frame": true,
@@ -163,5 +163,32 @@ window.AESTIVA_CONTENT = {
       "h": 613
     }
   ],
-  "buildId": "20260925-082758-f1c1"
+  "buildId": "20261001-214116-6519",
+  "clinicsEnabled": false,
+  "demoVideos": [
+    {
+      "title": "",
+      "caption": "",
+      "module": "",
+      "src": "",
+      "poster": "",
+      "active": true
+    },
+    {
+      "title": "",
+      "caption": "",
+      "module": "",
+      "src": "",
+      "poster": "",
+      "active": true
+    },
+    {
+      "title": "",
+      "caption": "",
+      "module": "",
+      "src": "",
+      "poster": "",
+      "active": true
+    }
+  ]
 };
