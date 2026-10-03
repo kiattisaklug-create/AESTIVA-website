@@ -194,7 +194,7 @@ function handlePulse(req, res) {
     appendEvent(rec);
     res.writeHead(204, { "Cache-Control": "no-store" });
     res.end();
-    if (rec.t === "v" && viewHook) { try { viewHook(); } catch (e) { console.error("[stats] viewHook ผิดพลาด:", e.message); } }
+    if (rec.t === "v" && viewHook) { try { viewHook({ src: rec.src, dev: rec.dev }); } catch (e) { console.error("[stats] viewHook ผิดพลาด:", e.message); } }
   });
 }
 

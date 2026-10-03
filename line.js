@@ -46,11 +46,18 @@ try {
 const STATE_FILE = DIR ? path.join(DIR, "state.json") : null;
 
 function loadState() {
-  const def = { setupCode: null, recipientUserId: null, lastNotifiedAt: null, pendingVisits: 0, log: [] };
+  const def = { setupCode: null, recipientUserId: null, lastNotifiedAt: null, pendingVisits: { total: 0, bySource: {} }, log: [] };
   if (!STATE_FILE) return def;
   try {
     const s = JSON.parse(fs.readFileSync(STATE_FILE, "utf8"));
-    if (s && typeof s === "object") return Object.assign({}, def, s);
+    if (s && typeof s === "object") {
+      const merged = Object.assign({}, def, s);
+      // รองรับไฟล์สถานะรุ่นเก่า (pendingVisits เคยเป็นตัวเลขเฉยๆ ก่อนที่จะแยกตามช่องทาง)
+      if (typeof merged.pendingVisits === "number") merged.pendingVisits = { total: merged.pendingVisits, bySource: {} };
+      if (!merged.pendingVisits || typeof merged.pendingVisits !== "object") merged.pendingVisits = { total: 0, bySource: {} };
+      if (!merged.pendingVisits.bySource || typeof merged.pendingVisits.bySource !== "object") merged.pendingVisits.bySource = {};
+      return merged;
+    }
   } catch (e) { /* ยังไม่มีไฟล์ หรืออ่านไม่ได้ */ }
   return def;
 }
@@ -117,8 +124,21 @@ function thDate(d) {
   return Number(p[2]) + " " + MONTH_TH[Number(p[1]) - 1] + " " + (Number(p[0]) + 543);
 }
 
+/* ---------- ชื่อช่องทางที่แสดงในข้อความ LINE (ตรงกับที่หน้า /stats ใช้) ---------- */
+const SRC_TH = {
+  direct: "ลิงก์ตรง / ไม่ทราบที่มา", tiktok: "TikTok", instagram: "Instagram", line: "LINE",
+  facebook: "Facebook", google: "Google", bing: "Bing", youtube: "YouTube", x: "X (Twitter)"
+};
+function srcLabel(src) { return SRC_TH[src] || src || "ไม่ทราบที่มา"; }
+
+function formatBySource(bySource) {
+  const entries = Object.keys(bySource || {}).filter((k) => bySource[k] > 0).sort((a, b) => bySource[b] - bySource[a]);
+  if (!entries.length) return "";
+  return entries.map((k) => srcLabel(k) + (bySource[k] > 1 ? " ×" + bySource[k] : "")).join(", ");
+}
+
 /* ---------- สร้างข้อความสรุป (ใช้ aggregate(30) ครั้งเดียว คำนวณวันนี้/7วัน/30วัน จากในนั้น) ---------- */
-async function buildSummary(newCount) {
+async function buildSummary(newCount, bySource) {
   const r = await analytics.aggregate(30);
   const daily = r.daily || [];
   const today = daily[daily.length - 1] || { views: 0, visitors: 0 };
@@ -127,7 +147,10 @@ async function buildSummary(newCount) {
   const siteUrl = (process.env.SITE_URL || "https://aestiva-website-production.up.railway.app").trim();
   let head = "🔔 มีคนเข้าชมเว็บ AESTIVA!";
   if (newCount > 1) head += " (+" + newCount + " ครั้งใหม่)";
-  let text = head + "\n📅 " + thDate(r.to) + "\n\n" +
+  let text = head + "\n📅 " + thDate(r.to);
+  const srcLine = formatBySource(bySource);
+  if (srcLine) text += "\nช่องทาง: " + srcLine;
+  text += "\n\n" +
     "วันนี้: " + today.views + " ครั้ง (" + today.visitors + " คน)\n" +
     "7 วันล่าสุด: " + sum7.views + " ครั้ง (" + sum7.visitors + " คน)\n" +
     "30 วันล่าสุด: " + r.totals.views + " ครั้ง (" + r.totals.visitors + " คน)";
@@ -135,10 +158,10 @@ async function buildSummary(newCount) {
   return text;
 }
 
-async function sendSummaryNow(newCount) {
+async function sendSummaryNow(newCount, bySource) {
   if (!configured()) throw new Error("ยังไม่ได้ตั้งค่า LINE_CHANNEL_ACCESS_TOKEN และ LINE_CHANNEL_SECRET ใน Railway");
   if (!state.recipientUserId) throw new Error("ยังไม่ได้เชื่อมต่อ LINE — ส่งรหัสตั้งค่าจาก LINE หาคุณก่อน (ดูที่หน้า /stats)");
-  const text = await buildSummary(newCount || 0);
+  const text = await buildSummary(newCount || 0, bySource);
   await pushMessage(state.recipientUserId, text);
   return text;
 }
@@ -148,16 +171,23 @@ let sending = false;
 function flushPending() {
   if (sending) return; // กันส่งซ้อนกันถ้าเผลอถูกเรียกพร้อมกัน
   if (!configured() || !state.recipientUserId) return;
-  if (!state.pendingVisits) return;
+  if (!state.pendingVisits || !state.pendingVisits.total) return;
   const gapMs = notifyGapHours() * 3600000;
   const elapsed = Date.now() - (state.lastNotifiedAt || 0);
   if (state.lastNotifiedAt && elapsed < gapMs) return; // ยังไม่ถึงเวลา รอรอบถัดไป
-  const count = state.pendingVisits;
+  const count = state.pendingVisits.total;
+  const bySource = Object.assign({}, state.pendingVisits.bySource); // คัดลอกไว้ตอนนี้ เผื่อมีของใหม่เข้ามาระหว่างกำลังส่ง
   sending = true;
-  sendSummaryNow(count).then(() => {
-    state.pendingVisits = Math.max(0, state.pendingVisits - count); // เก็บยอดที่เข้ามาใหม่ระหว่างกำลังส่งไว้ ไม่ให้หายไป
+  sendSummaryNow(count, bySource).then(() => {
+    // เก็บยอด/ช่องทางที่เข้ามาใหม่ระหว่างกำลังส่งไว้ ไม่ให้หายไป (หักลบเฉพาะส่วนที่เพิ่งส่งไปจริง)
+    state.pendingVisits.total = Math.max(0, state.pendingVisits.total - count);
+    Object.keys(bySource).forEach((k) => {
+      state.pendingVisits.bySource[k] = Math.max(0, (state.pendingVisits.bySource[k] || 0) - bySource[k]);
+      if (!state.pendingVisits.bySource[k]) delete state.pendingVisits.bySource[k];
+    });
     state.lastNotifiedAt = Date.now();
-    addLog(state, "แจ้งเตือนสำเร็จ (" + count + " ครั้งที่เข้าเว็บ)");
+    const srcLine = formatBySource(bySource);
+    addLog(state, "แจ้งเตือนสำเร็จ (" + count + " ครั้งที่เข้าเว็บ" + (srcLine ? " — " + srcLine : "") + ")");
     saveState(state);
     sending = false;
     flushPending(); // เช็คทันทีเผื่อมียอดค้างจากระหว่างที่กำลังส่ง (ถ้ายังไม่ถึงช่วงเวลาที่ตั้งไว้ จะรอรอบถัดไปเอง)
@@ -168,9 +198,12 @@ function flushPending() {
     sending = false; // ไม่ลองซ้ำทันที เพื่อไม่ให้ยิงรัวถ้า token ผิด — รอตัวตรวจสำรอง (ทุก 5 นาที) หรือคนเข้าเว็บครั้งถัดไป
   });
 }
-function notifyVisit() {
+function notifyVisit(info) {
   if (!configured() || !state.recipientUserId) return; // ยังไม่ได้ตั้งค่า/เชื่อมต่อ — ไม่ต้องทำอะไร
-  state.pendingVisits = (state.pendingVisits || 0) + 1;
+  const src = (info && info.src) || "direct";
+  if (!state.pendingVisits || typeof state.pendingVisits !== "object") state.pendingVisits = { total: 0, bySource: {} };
+  state.pendingVisits.total = (state.pendingVisits.total || 0) + 1;
+  state.pendingVisits.bySource[src] = (state.pendingVisits.bySource[src] || 0) + 1;
   saveState(state);
   flushPending();
 }
@@ -248,7 +281,7 @@ function handleStatus(req, res) {
     recipientMasked: maskId(state.recipientUserId),
     setupCode: state.setupCode,
     gapHours: notifyGapHours(),
-    pendingVisits: state.pendingVisits || 0,
+    pendingVisits: (state.pendingVisits && state.pendingVisits.total) || 0,
     lastNotifiedAt: state.lastNotifiedAt,
     persistent,
     log: state.log || []
